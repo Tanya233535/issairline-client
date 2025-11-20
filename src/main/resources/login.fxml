@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.LoginController"
+      style="-fx-padding: 20;">
+
+    <Label text="Вход в ИСС Авиакомпании" style="-fx-font-size: 18;"/>
+
+    <TextField fx:id="usernameField" promptText="Логин"/>
+    <PasswordField fx:id="passwordField" promptText="Пароль"/>
+
+    <Button text="Войти" onAction="#onLogin"/>
+
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+
+</VBox>
