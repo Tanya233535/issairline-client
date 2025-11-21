@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.client.controller.MainController"
-      spacing="10" style="-fx-padding: 20;">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.client.controller.MainController">
 
-    <Label fx:id="roleLabel" style="-fx-font-size: 18;"/>
+    <!-- Левая панель (меню) -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Label text="Меню"
+                   style="-fx-text-fill: white; -fx-font-size: 18;"/>
 
-    <Button text="Рейсы" fx:id="flightsBtn"/>
-    <Button text="Пассажиры" fx:id="passengersBtn"/>
-    <Button text="Экипаж" fx:id="crewBtn"/>
-    <Button text="Самолёты" fx:id="aircraftsBtn"/>
-    <Button text="ТО" fx:id="maintenanceBtn"/>
+            <Button fx:id="btnFlights" text="Рейсы" maxWidth="Infinity"/>
+            <Button fx:id="btnPassengers" text="Пассажиры" maxWidth="Infinity"/>
+            <Button fx:id="btnCrew" text="Экипаж" maxWidth="Infinity"/>
+            <Button fx:id="btnAircrafts" text="Самолёты" maxWidth="Infinity"/>
+            <Button fx:id="btnMaintenance" text="ТО" maxWidth="Infinity"/>
 
-</VBox>
+            <Separator/>
+            <Button fx:id="btnLogout" text="Выход" maxWidth="Infinity" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+        </VBox>
+    </left>
+
+    <!-- Центральная рабочая область -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-padding: 20;">
+            <Label text="Выберите раздел в меню" style="-fx-font-size: 20;"/>
+        </StackPane>
+    </center>
+
+    <!-- Верхняя строка -->
+    <top>
+        <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #34495e; -fx-padding: 10;">
+            <Label fx:id="roleLabel" style="-fx-text-fill: white;"/>
+        </HBox>
+    </top>
+
+</BorderPane>

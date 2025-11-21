@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.aircraft.AircraftController"
+      spacing="10"
+      style="-fx-padding: 20;">
+
+    <!-- Заголовок -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Самолёты" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- Панель поиска -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Поиск по модели или коду..." />
+        <Button text="Поиск" fx:id="btnSearch"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Добавить" fx:id="btnAdd" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+    </HBox>
+
+    <!-- Таблица -->
+    <TableView fx:id="table" prefHeight="400">
+
+        <columns>
+            <TableColumn fx:id="colCode" text="Код" prefWidth="120"/>
+            <TableColumn fx:id="colModel" text="Модель" prefWidth="160"/>
+            <TableColumn fx:id="colYear" text="Год" prefWidth="90"/>
+            <TableColumn fx:id="colCapacity" text="Вмест." prefWidth="80"/>
+            <TableColumn fx:id="colStatus" text="Статус" prefWidth="120"/>
+            <TableColumn fx:id="colHours" text="Налёт" prefWidth="120"/>
+        </columns>
+
+    </TableView>
+
+    <!-- Кнопки управления -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="btnEdit" text="Изменить"/>
+        <Button fx:id="btnDelete" text="Удалить" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+        <Button fx:id="btnRefresh" text="Обновить"/>
+    </HBox>
+
+</VBox>
