@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import org.example.client.App;
 
 public class MainController {
@@ -25,7 +25,6 @@ public class MainController {
     public void setRole(String role) {
         this.role = role;
         roleLabel.setText("Роль: " + role);
-
         applyRoleRestrictions();
     }
 
@@ -51,12 +50,31 @@ public class MainController {
         btnPassengers.setOnAction(e -> loadView("passenger/PassengerView.fxml"));
         btnCrew.setOnAction(e -> loadView("crew/CrewView.fxml"));
         btnMaintenance.setOnAction(e -> loadView("maintenance/MaintenanceView.fxml"));
+        btnLogout.setOnAction(e -> onLogout());
     }
 
     private void loadView(String fxmlPath) {
         try {
-            Node view = FXMLLoader.load(App.class.getResource("/" + fxmlPath));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/" + fxmlPath));
+            Parent view = loader.load();
             contentArea.getChildren().setAll(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onLogout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/auth/login.fxml"));
+            Parent loginRoot = loader.load();
+
+            javafx.stage.Stage stage =
+                    (javafx.stage.Stage) btnLogout.getScene().getWindow();
+
+            stage.getScene().setRoot(loginRoot);
+            stage.centerOnScreen();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

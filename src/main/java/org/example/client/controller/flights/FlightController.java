@@ -95,7 +95,7 @@ public class FlightController {
 
     private void openEditWindow(Flight flight) {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/flights/FlightEditDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/flight/FlightEditDialog.fxml"));
             Stage stage = new Stage();
 
             stage.setScene(new Scene(loader.load()));

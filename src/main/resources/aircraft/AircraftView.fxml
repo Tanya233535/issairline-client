@@ -30,7 +30,7 @@
             <TableColumn fx:id="colCode" text="Код" prefWidth="120"/>
             <TableColumn fx:id="colModel" text="Модель" prefWidth="160"/>
             <TableColumn fx:id="colYear" text="Год" prefWidth="90"/>
-            <TableColumn fx:id="colCapacity" text="Вмест." prefWidth="80"/>
+            <TableColumn fx:id="colCapacity" text="Вместимость" prefWidth="100"/>
             <TableColumn fx:id="colStatus" text="Статус" prefWidth="120"/>
             <TableColumn fx:id="colHours" text="Налёт" prefWidth="120"/>
         </columns>

@@ -4,18 +4,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx"
+<VBox spacing="12" alignment="CENTER"
+      xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.client.controller.LoginController"
       style="-fx-padding: 20;">
 
-    <Label text="Вход в ИСС Авиакомпании" style="-fx-font-size: 18;"/>
+    <Label text="Авторизация" style="-fx-font-size: 22;" />
 
-    <TextField fx:id="usernameField" promptText="Логин"/>
-    <PasswordField fx:id="passwordField" promptText="Пароль"/>
+    <TextField fx:id="usernameField" promptText="Логин" maxWidth="200"/>
+    <PasswordField fx:id="passwordField" promptText="Пароль" maxWidth="200"/>
 
-    <Button text="Войти" onAction="#onLogin"/>
+    <Button text="Войти" onAction="#onLogin" maxWidth="200"/>
 
-    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
-
+    <Label fx:id="errorLabel" textFill="red" />
 </VBox>

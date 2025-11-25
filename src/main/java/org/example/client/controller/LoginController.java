@@ -1,12 +1,10 @@
 package org.example.client.controller;
 
-import org.example.client.App;
-//import org.example.client.model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import org.example.client.App;
+import org.example.client.util.HttpClientUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoginController {
 
@@ -14,35 +12,32 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     @FXML
     public void onLogin() {
-        String user = usernameField.getText();
-        String pass = passwordField.getText();
+        String user = usernameField.getText().trim();
+        String pass = passwordField.getText().trim();
 
-        if (user.equals("admin") && pass.equals("admin")) {
-            openMainWindow("ADMIN");
-        } else if (user.equals("dispatcher") && pass.equals("123")) {
-            openMainWindow("DISPATCHER");
-        } else if (user.equals("viewer") && pass.equals("000")) {
-            openMainWindow("VIEWER");
-        } else {
-            errorLabel.setText("Неверный логин или пароль!");
+        try {
+            HttpClientUtil.setCredentials(user, pass);
+
+            String json = HttpClientUtil.sendGet("http://localhost:8080/iss/api/auth/login");
+
+            AuthResponse resp = mapper.readValue(json, AuthResponse.class);
+
+            App.showMainWindow(resp.getRole());
+
+        } catch (Exception e) {
+            errorLabel.setText("Неверный логин или пароль");
         }
     }
 
-    private void openMainWindow(String role) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/main.fxml"));
-            Scene scene = new Scene(loader.load());
+    public static class AuthResponse {
+        private String username;
+        private String role;
 
-            MainController controller = loader.getController();
-            controller.setRole(role);
-
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("ИСАА — Главная");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        public String getUsername() { return username; }
+        public String getRole() { return role; }
     }
 }

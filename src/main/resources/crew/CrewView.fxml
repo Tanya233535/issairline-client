@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.crew.CrewController"
+      spacing="10" style="-fx-padding: 20;">
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Экипаж" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="Поиск по имени, фамилии или роли..." />
+        <Button fx:id="btnSearch" text="Поиск"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnAdd" text="Добавить"
+                style="-fx-background-color:#27ae60; -fx-text-fill:white;"/>
+    </HBox>
+
+    <TableView fx:id="table" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="colLast" text="Фамилия" prefWidth="120"/>
+            <TableColumn fx:id="colFirst" text="Имя" prefWidth="120"/>
+            <TableColumn fx:id="colMiddle" text="Отчество" prefWidth="120"/>
+            <TableColumn fx:id="colRole" text="Роль" prefWidth="120"/>
+            <TableColumn fx:id="colQual" text="Квалификация" prefWidth="120"/>
+            <TableColumn fx:id="colExp" text="Стаж" prefWidth="80"/>
+            <TableColumn fx:id="colFlight" text="Рейс" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="btnEdit" text="Изменить"/>
+        <Button fx:id="btnDelete" text="Удалить"
+                style="-fx-background-color:#c0392b; -fx-text-fill:white;"/>
+        <Button fx:id="btnRefresh" text="Обновить"/>
+    </HBox>
+
+</VBox>

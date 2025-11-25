@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.maintenance.MaintenanceEditController"
+      spacing="10"
+      style="-fx-padding: 20;">
+
+    <Label text="Редактирование ТО"
+           style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+
+        <Label text="Самолёт:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="aircraftBox"
+                  GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Дата ТО:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dateMaintenance"
+                    GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Тип проверки:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="typeField"
+                   promptText="A-check / B-check / C-check / D-check"
+                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Инженер:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="engineerField"
+                   GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Описание:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <TextArea fx:id="descriptionField"
+                  prefRowCount="4"
+                  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Следующее ТО:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="nextDueDate"
+                    GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Статус:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="statusBox"
+                  GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Сохранить" onAction="#onSave"/>
+        <Button text="Отмена" onAction="#onCancel"/>
+    </HBox>
+
+</VBox>

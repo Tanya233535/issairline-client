@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.flights.FlightEditController"
+      spacing="10"
+      style="-fx-padding: 20;">
+
+    <Label text="Редактирование рейса"
+           style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+
+        <Label text="Номер рейса:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="flightNoField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Аэропорт вылета:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="departureAirportField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Аэропорт прибытия:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="arrivalAirportField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Дата вылета:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dateDep" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Время вылета:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="timeDep" promptText="HH:mm" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Дата прибытия:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dateArr" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Время прибытия:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <TextField fx:id="timeArr" promptText="HH:mm" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+        <Label text="Статус:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="statusBox" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+        <Label text="Самолёт:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="aircraftBox" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Сохранить" onAction="#onSave"/>
+        <Button text="Отмена" onAction="#onCancel"/>
+    </HBox>
+
+</VBox>

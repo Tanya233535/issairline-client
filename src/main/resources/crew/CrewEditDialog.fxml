@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox alignment="CENTER_LEFT" spacing="10"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.crew.CrewEditController"
+      style="-fx-padding: 20;">
+
+    <Label text="Редактирование сотрудника" style="-fx-font-size: 20;"/>
+
+    <GridPane hgap="10" vgap="10">
+
+        <Label text="Фамилия:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="lastNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Имя:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="firstNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Отчество:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="middleNameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Роль:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="roleField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Квалификация:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="qualificationField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Стаж (лет):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="experienceField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Рейс:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="flightBox" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="btnSave" text="Сохранить" onAction="#onSave"/>
+        <Button fx:id="btnCancel" text="Отмена" onAction="#onCancel"/>
+    </HBox>
+
+</VBox>

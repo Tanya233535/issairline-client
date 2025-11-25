@@ -9,26 +9,31 @@ import java.util.List;
 
 public class AircraftApi {
 
-    private static final String BASE_URL = "http://localhost:8080/api/aircrafts";
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final String BASE_URL = "http://localhost:8080/iss/api/aircrafts";
+    private static final ObjectMapper mapper = HttpClientUtil.mapper;
 
     public static List<Aircraft> getAll() throws Exception {
-        String json = HttpClientUtil.get(BASE_URL);
+        String json = HttpClientUtil.sendGet(BASE_URL);
         return mapper.readValue(json, new TypeReference<List<Aircraft>>() {});
     }
 
     public static Aircraft create(Aircraft aircraft) throws Exception {
-        String json = HttpClientUtil.post(BASE_URL, mapper.writeValueAsString(aircraft));
+        String json = HttpClientUtil.sendPost(
+                BASE_URL,
+                mapper.writeValueAsString(aircraft)
+        );
         return mapper.readValue(json, Aircraft.class);
     }
 
     public static Aircraft update(Aircraft aircraft) throws Exception {
-        String json = HttpClientUtil.put(BASE_URL + "/" + aircraft.getAircraftCode(),
-                mapper.writeValueAsString(aircraft));
+        String json = HttpClientUtil.sendPut(
+                BASE_URL + "/" + aircraft.getAircraftCode(),
+                mapper.writeValueAsString(aircraft)
+        );
         return mapper.readValue(json, Aircraft.class);
     }
 
     public static void delete(String code) throws Exception {
-        HttpClientUtil.delete(BASE_URL + "/" + code);
+        HttpClientUtil.sendDelete(BASE_URL + "/" + code);
     }
 }

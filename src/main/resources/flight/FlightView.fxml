@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.flights.FlightController"
+      spacing="10"
+      style="-fx-padding: 20;">
+
+    <!-- Заголовок -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Рейсы"
+               style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- Панель поиска -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField"
+                   promptText="Поиск по рейсу или аэропорту..."
+                   HBox.hgrow="ALWAYS"/>
+
+        <Button text="Поиск" fx:id="btnSearch"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Добавить"
+                fx:id="btnAdd"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+    </HBox>
+
+    <!-- Таблица -->
+    <TableView fx:id="table" prefHeight="450">
+        <columns>
+            <TableColumn fx:id="colFlightNo" text="Рейс" prefWidth="90"/>
+            <TableColumn fx:id="colDepartureAirport" text="Откуда" prefWidth="120"/>
+            <TableColumn fx:id="colArrivalAirport" text="Куда" prefWidth="120"/>
+            <TableColumn fx:id="colDeparture" text="Вылет" prefWidth="150"/>
+            <TableColumn fx:id="colArrival" text="Прибытие" prefWidth="150"/>
+            <TableColumn fx:id="colStatus" text="Статус" prefWidth="100"/>
+            <TableColumn fx:id="colAircraft" text="Самолёт" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <!-- Нижняя панель кнопок -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="btnEdit" text="Изменить"/>
+        <Button fx:id="btnDelete"
+                text="Удалить"
+                style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+        <Button fx:id="btnRefresh" text="Обновить"/>
+    </HBox>
+
+</VBox>
