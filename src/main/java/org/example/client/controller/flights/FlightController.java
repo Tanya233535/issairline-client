@@ -6,10 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import org.example.client.App;
 import org.example.client.api.FlightApi;
 import org.example.client.model.Flight;
+import org.example.client.util.ErrorDialog;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,16 +30,22 @@ public class FlightController {
     @FXML private Button btnAdd, btnEdit, btnDelete, btnRefresh, btnSearch;
 
     private List<Flight> fullList;
-
     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     @FXML
     private void initialize() {
+
         colFlightNo.setCellValueFactory(c -> c.getValue().flightNoProperty());
         colDepartureAirport.setCellValueFactory(c -> c.getValue().departureAirportProperty());
         colArrivalAirport.setCellValueFactory(c -> c.getValue().arrivalAirportProperty());
         colStatus.setCellValueFactory(c -> c.getValue().statusProperty());
-        colAircraft.setCellValueFactory(c -> c.getValue().aircraftProperty().get().modelProperty());
+
+        colAircraft.setCellValueFactory(c ->
+                new javafx.beans.property.SimpleStringProperty(
+                        c.getValue().getAircraft() != null ?
+                                c.getValue().getAircraft().getModel() : "-"
+                )
+        );
 
         colDeparture.setCellValueFactory(c ->
                 new javafx.beans.property.SimpleStringProperty(
@@ -65,7 +71,7 @@ public class FlightController {
             fullList = FlightApi.getAll();
             table.getItems().setAll(fullList);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки рейсов", e.getMessage());
         }
     }
 
@@ -89,7 +95,7 @@ public class FlightController {
             FlightApi.delete(f.getId());
             loadData();
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка удаления", e.getMessage());
         }
     }
 
@@ -109,7 +115,7 @@ public class FlightController {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка открытия окна", e.getMessage());
         }
     }
 

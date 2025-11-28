@@ -7,13 +7,22 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.client.controller.flights.FlightEditController"
-      spacing="10"
-      style="-fx-padding: 20;">
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-padding: 25; -fx-background-color: white;">
 
-    <Label text="Редактирование рейса"
-           style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    <Label fx:id="titleLabel"
+           text="Рейс"
+           maxWidth="Infinity"
+           alignment="CENTER"
+           style="-fx-font-size: 24; -fx-font-weight: bold;"/>
 
-    <GridPane hgap="10" vgap="10">
+    <GridPane hgap="20" vgap="14">
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="180" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="280" hgrow="ALWAYS"/>
+        </columnConstraints>
 
         <Label text="Номер рейса:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="flightNoField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
@@ -28,13 +37,17 @@
         <DatePicker fx:id="dateDep" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
         <Label text="Время вылета:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextField fx:id="timeDep" promptText="HH:mm" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <TextField fx:id="timeDep"
+                   promptText="HH:mm"
+                   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
         <Label text="Дата прибытия:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
         <DatePicker fx:id="dateArr" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
         <Label text="Время прибытия:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-        <TextField fx:id="timeArr" promptText="HH:mm" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+        <TextField fx:id="timeArr"
+                   promptText="HH:mm"
+                   GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
         <Label text="Статус:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
         <ComboBox fx:id="statusBox" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
@@ -44,9 +57,14 @@
 
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Сохранить" onAction="#onSave"/>
-        <Button text="Отмена" onAction="#onCancel"/>
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+        <Button text="Сохранить"
+                prefWidth="140"
+                onAction="#onSave"/>
+
+        <Button text="Отмена"
+                prefWidth="140"
+                onAction="#onCancel"/>
     </HBox>
 
 </VBox>

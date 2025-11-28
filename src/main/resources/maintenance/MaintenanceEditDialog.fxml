@@ -7,13 +7,22 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.client.controller.maintenance.MaintenanceEditController"
-      spacing="10"
-      style="-fx-padding: 20;">
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-padding: 25; -fx-background-color: white;">
 
-    <Label text="Редактирование ТО"
-           style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    <Label text="Техническое обслуживание"
+           fx:id="titleLabel"
+           maxWidth="Infinity"
+           alignment="CENTER"
+           style="-fx-font-size: 24; -fx-font-weight: bold;"/>
 
-    <GridPane hgap="10" vgap="10">
+    <GridPane hgap="20" vgap="14">
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="180" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="280" hgrow="ALWAYS"/>
+        </columnConstraints>
 
         <Label text="Самолёт:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <ComboBox fx:id="aircraftBox"
@@ -25,16 +34,17 @@
 
         <Label text="Тип проверки:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <TextField fx:id="typeField"
-                   promptText="A-check / B-check / C-check / D-check"
+                   promptText="A-check, B-check, C-check..."
                    GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
         <Label text="Инженер:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <TextField fx:id="engineerField"
                    GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-        <Label text="Описание:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <Label text="Описание:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
         <TextArea fx:id="descriptionField"
                   prefRowCount="4"
+                  wrapText="true"
                   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
         <Label text="Следующее ТО:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
@@ -47,9 +57,14 @@
 
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Сохранить" onAction="#onSave"/>
-        <Button text="Отмена" onAction="#onCancel"/>
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+        <Button text="Сохранить"
+                prefWidth="140"
+                onAction="#onSave"/>
+
+        <Button text="Отмена"
+                prefWidth="140"
+                onAction="#onCancel"/>
     </HBox>
 
 </VBox>

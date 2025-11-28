@@ -65,4 +65,9 @@ public class Flight {
     public String getRouteDuration() { return routeDuration.get(); }
     public void setRouteDuration(String v) { routeDuration.set(v); }
     public StringProperty routeDurationProperty() { return routeDuration; }
+
+    @Override
+    public String toString() {
+        return flightNo.get();
+    }
 }

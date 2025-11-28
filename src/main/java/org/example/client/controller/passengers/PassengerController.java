@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.PassengerApi;
 import org.example.client.model.Passenger;
+import org.example.client.util.ErrorDialog;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +31,16 @@ public class PassengerController {
 
     @FXML
     private void initialize() {
+
         colLastName.setCellValueFactory(c -> c.getValue().lastNameProperty());
         colFirstName.setCellValueFactory(c -> c.getValue().firstNameProperty());
         colTicket.setCellValueFactory(c -> c.getValue().ticketNumberProperty());
         colPassport.setCellValueFactory(c -> c.getValue().passportNumberProperty());
         colSeat.setCellValueFactory(c -> c.getValue().seatProperty());
+
         colFlight.setCellValueFactory(c -> {
-            if (c.getValue().getFlight() == null) return new javafx.beans.property.SimpleStringProperty("-");
+            if (c.getValue().getFlight() == null)
+                return new javafx.beans.property.SimpleStringProperty("-");
             return c.getValue().getFlight().flightNoProperty();
         });
 
@@ -55,12 +59,13 @@ public class PassengerController {
             table.getItems().setAll(fullList);
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Ошибка", "Не удалось загрузить пассажиров: " + e.getMessage());
+            ErrorDialog.show("Ошибка загрузки", "Не удалось загрузить пассажиров:\n" + e.getMessage());
         }
     }
 
     private void search() {
         String q = searchField.getText().toLowerCase();
+
         if (q.isBlank()) {
             table.getItems().setAll(fullList);
             return;
@@ -70,18 +75,20 @@ public class PassengerController {
                 .filter(p -> p.getLastName().toLowerCase().contains(q)
                         || p.getTicketNumber().toLowerCase().contains(q))
                 .collect(Collectors.toList());
+
         table.getItems().setAll(filtered);
     }
 
     private void deleteSelected() {
         Passenger p = table.getSelectionModel().getSelectedItem();
         if (p == null) return;
+
         try {
             PassengerApi.delete(p.getId());
             loadData();
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Ошибка", "Не удалось удалить: " + e.getMessage());
+            ErrorDialog.show("Ошибка удаления", e.getMessage());
         }
     }
 
@@ -89,6 +96,7 @@ public class PassengerController {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/passenger/PassengerEditDialog.fxml"));
             Stage stage = new Stage();
+
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(passenger == null ? "Добавить пассажира" : "Редактировать пассажира");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -98,21 +106,14 @@ public class PassengerController {
             controller.setPassenger(passenger);
 
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Ошибка", "Не удалось открыть окно редактирования: " + e.getMessage());
+            ErrorDialog.show("Ошибка", "Не удалось открыть окно редактирования:\n" + e.getMessage());
         }
     }
 
     public void refreshTable() {
         loadData();
-    }
-
-    private void showAlert(String title, String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle(title);
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
     }
 }

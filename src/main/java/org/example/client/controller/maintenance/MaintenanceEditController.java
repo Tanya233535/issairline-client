@@ -7,6 +7,7 @@ import org.example.client.api.AircraftApi;
 import org.example.client.api.MaintenanceApi;
 import org.example.client.model.Aircraft;
 import org.example.client.model.Maintenance;
+import org.example.client.util.ErrorDialog;
 
 public class MaintenanceEditController {
 
@@ -36,7 +37,7 @@ public class MaintenanceEditController {
         try {
             aircraftBox.getItems().setAll(AircraftApi.getAll());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки самолётов", e.getMessage());
         }
     }
 
@@ -45,6 +46,7 @@ public class MaintenanceEditController {
     }
 
     private void fillFields() {
+
         if (maintenance.getAircraft() != null)
             aircraftBox.setValue(maintenance.getAircraft());
 
@@ -63,11 +65,25 @@ public class MaintenanceEditController {
         try {
             if (aircraftBox.getValue() == null ||
                     dateMaintenance.getValue() == null ||
-                    typeField.getText().isEmpty() ||
-                    engineerField.getText().isEmpty() ||
+                    typeField.getText().isBlank() ||
+                    engineerField.getText().isBlank() ||
                     statusBox.getValue() == null) {
 
-                showAlert("Ошибка", "Все обязательные поля должны быть заполнены");
+                ErrorDialog.show(
+                        "Ошибка заполнения",
+                        "Заполните все обязательные поля:\n" +
+                                "— Самолёт\n— Дата ТО\n— Тип работ\n— Инженер\n— Статус"
+                );
+                return;
+            }
+
+            if (nextDueDate.getValue() != null &&
+                    nextDueDate.getValue().isBefore(dateMaintenance.getValue())) {
+
+                ErrorDialog.show(
+                        "Ошибка дат",
+                        "Дата следующего ТО не может быть раньше текущего ТО."
+                );
                 return;
             }
 
@@ -89,8 +105,7 @@ public class MaintenanceEditController {
             closeWindow();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Ошибка", e.getMessage());
+            ErrorDialog.show("Ошибка сохранения", e.getMessage());
         }
     }
 
@@ -102,13 +117,5 @@ public class MaintenanceEditController {
     private void closeWindow() {
         Stage stage = (Stage) aircraftBox.getScene().getWindow();
         stage.close();
-    }
-
-    private void showAlert(String title, String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 }

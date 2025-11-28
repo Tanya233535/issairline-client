@@ -7,6 +7,8 @@ import org.example.client.api.FlightApi;
 import org.example.client.api.PassengerApi;
 import org.example.client.model.Flight;
 import org.example.client.model.Passenger;
+import org.example.client.util.ErrorDialog;
+import org.example.client.util.Validator;
 
 import java.util.List;
 
@@ -27,21 +29,20 @@ public class PassengerEditController {
 
     public void setPassenger(Passenger p) {
         this.passenger = (p == null ? new Passenger() : p);
+
         loadFlights();
         fillFields();
     }
 
     private void loadFlights() {
         try {
-            List<Flight> flights = FlightApi.getAll();
-            flightBox.getItems().setAll(flights);
+            flightBox.getItems().setAll(FlightApi.getAll());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки рейсов", e.getMessage());
         }
     }
 
     private void fillFields() {
-        if (passenger == null) return;
         if (passenger.getLastName() != null) lastNameField.setText(passenger.getLastName());
         if (passenger.getFirstName() != null) firstNameField.setText(passenger.getFirstName());
         if (passenger.getMiddleName() != null) middleNameField.setText(passenger.getMiddleName());
@@ -54,11 +55,16 @@ public class PassengerEditController {
     @FXML
     private void onSave() {
         try {
-            // простая валидация
-            if (lastNameField.getText().isBlank() || firstNameField.getText().isBlank()
-                    || passportField.getText().isBlank() || ticketField.getText().isBlank()
-                    || seatField.getText().isBlank()) {
-                showAlert("Ошибка", "Заполните обязательные поля");
+            var errors = Validator.collector();
+
+            Validator.require(lastNameField, "Фамилия", errors);
+            Validator.require(firstNameField, "Имя", errors);
+            Validator.require(passportField, "Паспорт", errors);
+            Validator.require(ticketField, "Билет", errors);
+            Validator.require(seatField, "Место", errors);
+
+            if (!errors.isEmpty()) {
+                ErrorDialog.show("Ошибка ввода данных", errors);
                 return;
             }
 
@@ -70,18 +76,16 @@ public class PassengerEditController {
             passenger.setSeat(seatField.getText());
             passenger.setFlight(flightBox.getValue());
 
-            if (passenger.getId() == 0) {
+            if (passenger.getId() == 0)
                 PassengerApi.create(passenger);
-            } else {
+            else
                 PassengerApi.update(passenger.getId(), passenger);
-            }
 
             parent.refreshTable();
             closeWindow();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Ошибка", e.getMessage());
+            ErrorDialog.show("Ошибка сохранения", e.getMessage());
         }
     }
 
@@ -90,13 +94,5 @@ public class PassengerEditController {
     private void closeWindow() {
         Stage st = (Stage) lastNameField.getScene().getWindow();
         st.close();
-    }
-
-    private void showAlert(String title, String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle(title);
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
     }
 }

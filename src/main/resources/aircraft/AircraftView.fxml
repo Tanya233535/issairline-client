@@ -7,41 +7,55 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.client.controller.aircraft.AircraftController"
-      spacing="10"
-      style="-fx-padding: 20;">
+      spacing="15"
+      style="-fx-padding: 25;"
+      maxWidth="1400">
 
     <!-- Заголовок -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="Самолёты" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
-    </HBox>
+    <Label text="Самолёты"
+           style="-fx-font-size: 26; -fx-font-weight: bold;"/>
 
     <!-- Панель поиска -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <TextField fx:id="searchField" promptText="Поиск по модели или коду..." />
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField"
+                   promptText="Поиск по модели или коду..."
+                   HBox.hgrow="ALWAYS"/>
+
         <Button text="Поиск" fx:id="btnSearch"/>
+
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Добавить" fx:id="btnAdd" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+
+        <Button text="Добавить"
+                fx:id="btnAdd"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
     </HBox>
 
     <!-- Таблица -->
-    <TableView fx:id="table" prefHeight="400">
+    <TableView fx:id="table"
+               VBox.vgrow="ALWAYS"
+               style="-fx-background-insets: 0; -fx-padding: 0; -fx-background-color: white;
+                      -fx-border-color: #cfcfcf; -fx-border-radius: 4;">
 
         <columns>
-            <TableColumn fx:id="colCode" text="Код" prefWidth="120"/>
-            <TableColumn fx:id="colModel" text="Модель" prefWidth="160"/>
+            <TableColumn fx:id="colCode" text="Код" prefWidth="130"/>
+            <TableColumn fx:id="colModel" text="Модель" prefWidth="200"/>
             <TableColumn fx:id="colYear" text="Год" prefWidth="90"/>
-            <TableColumn fx:id="colCapacity" text="Вместимость" prefWidth="100"/>
-            <TableColumn fx:id="colStatus" text="Статус" prefWidth="120"/>
-            <TableColumn fx:id="colHours" text="Налёт" prefWidth="120"/>
+            <TableColumn fx:id="colCapacity" text="Вместимость" prefWidth="130"/>
+            <TableColumn fx:id="colStatus" text="Статус" prefWidth="130"/>
+            <TableColumn fx:id="colHours" text="Налёт" prefWidth="150"/>
         </columns>
 
     </TableView>
 
-    <!-- Кнопки управления -->
+    <!-- Нижняя панель -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button fx:id="btnEdit" text="Изменить"/>
-        <Button fx:id="btnDelete" text="Удалить" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
-        <Button fx:id="btnRefresh" text="Обновить"/>
+        <Button fx:id="btnEdit" text="Изменить" prefWidth="120"/>
+
+        <Button fx:id="btnDelete" text="Удалить"
+                prefWidth="120"
+                style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+
+        <Button fx:id="btnRefresh" text="Обновить" prefWidth="120"/>
     </HBox>
 
 </VBox>

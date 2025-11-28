@@ -3,38 +3,29 @@ package org.example.client.controller.crew;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import org.example.client.api.CrewApi;
 import org.example.client.api.FlightApi;
 import org.example.client.model.CrewMember;
 import org.example.client.model.Flight;
+import org.example.client.util.ErrorDialog;
+import org.example.client.util.Validator;
 
 public class CrewEditController {
 
+    @FXML private Label titleLabel;
     @FXML private TextField lastNameField;
     @FXML private TextField firstNameField;
     @FXML private TextField middleNameField;
     @FXML private TextField roleField;
     @FXML private TextField qualificationField;
     @FXML private TextField experienceField;
-
     @FXML private ComboBox<Flight> flightBox;
 
     private CrewMember crewMember;
     private CrewController parent;
 
-    public void setParent(CrewController p) {
-        this.parent = p;
-    }
-
-    public void setCrewMember(CrewMember cm) {
-        this.crewMember = (cm == null ? new CrewMember() : cm);
-
-        loadFlights();
-        fillFields();
-    }
-
-    private void loadFlights() {
+    @FXML
+    public void initialize() {
         try {
             flightBox.getItems().setAll(FlightApi.getAll());
         } catch (Exception e) {
@@ -42,25 +33,55 @@ public class CrewEditController {
         }
     }
 
-    private void fillFields() {
-        if (crewMember.getLastName() != null) lastNameField.setText(crewMember.getLastName());
-        if (crewMember.getFirstName() != null) firstNameField.setText(crewMember.getFirstName());
-        if (crewMember.getMiddleName() != null) middleNameField.setText(crewMember.getMiddleName());
-        if (crewMember.getRole() != null) roleField.setText(crewMember.getRole());
-        if (crewMember.getQualification() != null) qualificationField.setText(crewMember.getQualification());
-        if (crewMember.getExperienceYears() != 0) experienceField.setText(String.valueOf(crewMember.getExperienceYears()));
-        if (crewMember.getFlight() != null) flightBox.setValue(crewMember.getFlight());
+    public void setParent(CrewController parent) {
+        this.parent = parent;
+    }
+
+    public void setCrew(CrewMember member) {
+
+        this.crewMember = (member == null ? new CrewMember() : member);
+
+        titleLabel.setText(member == null
+                ? "Добавить сотрудника"
+                : "Редактировать сотрудника");
+
+        if (member != null) {
+
+            if (member.getLastName() != null)
+                lastNameField.setText(member.getLastName());
+
+            if (member.getFirstName() != null)
+                firstNameField.setText(member.getFirstName());
+
+            if (member.getMiddleName() != null)
+                middleNameField.setText(member.getMiddleName());
+
+            if (member.getRole() != null)
+                roleField.setText(member.getRole());
+
+            if (member.getQualification() != null)
+                qualificationField.setText(member.getQualification());
+
+            if (member.getExperienceYears() != 0)
+                experienceField.setText(String.valueOf(member.getExperienceYears()));
+
+            if (member.getFlight() != null)
+                flightBox.setValue(member.getFlight());
+        }
     }
 
     @FXML
     private void onSave() {
-
         try {
-            if (lastNameField.getText().isEmpty() ||
-                    firstNameField.getText().isEmpty() ||
-                    roleField.getText().isEmpty()) {
+            var errors = Validator.collector();
 
-                showError("Ошибка", "Фамилия, имя и роль обязательны!");
+            Validator.require(lastNameField, "Фамилия", errors);
+            Validator.require(firstNameField, "Имя", errors);
+            Validator.require(roleField, "Роль", errors);
+            Validator.nonNegativeInt(experienceField, "Стаж", errors);
+
+            if (!errors.isEmpty()) {
+                ErrorDialog.show("Ошибка ввода данных", errors);
                 return;
             }
 
@@ -69,26 +90,19 @@ public class CrewEditController {
             crewMember.setMiddleName(middleNameField.getText());
             crewMember.setRole(roleField.getText());
             crewMember.setQualification(qualificationField.getText());
-
-            int exp = 0;
-            if (!experienceField.getText().isEmpty())
-                exp = Integer.parseInt(experienceField.getText());
-            crewMember.setExperienceYears(exp);
-
+            crewMember.setExperienceYears(Integer.parseInt(experienceField.getText()));
             crewMember.setFlight(flightBox.getValue());
 
-            if (crewMember.getMemberId() == 0) {
+            if (crewMember.getMemberId() == 0)
                 CrewApi.save(crewMember);
-            } else {
+            else
                 CrewApi.update(crewMember.getMemberId(), crewMember);
-            }
 
             parent.refreshTable();
             close();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            showError("Ошибка", e.getMessage());
+            ErrorDialog.show("Ошибка сохранения", e.getMessage());
         }
     }
 
@@ -98,15 +112,7 @@ public class CrewEditController {
     }
 
     private void close() {
-        Stage stage = (Stage) lastNameField.getScene().getWindow();
+        Stage stage = (Stage) titleLabel.getScene().getWindow();
         stage.close();
-    }
-
-    private void showError(String title, String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle(title);
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
     }
 }

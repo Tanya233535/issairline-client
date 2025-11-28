@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.MaintenanceApi;
 import org.example.client.model.Maintenance;
+import org.example.client.util.ErrorDialog;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class MaintenanceController {
             fullList = MaintenanceApi.getAll();
             table.getItems().setAll(fullList);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки ТО", e.getMessage());
         }
     }
 
@@ -81,7 +82,7 @@ public class MaintenanceController {
             MaintenanceApi.delete(m.getId());
             loadData();
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка удаления", e.getMessage());
         }
     }
 
@@ -100,7 +101,7 @@ public class MaintenanceController {
 
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка открытия окна", e.getMessage());
         }
     }
 

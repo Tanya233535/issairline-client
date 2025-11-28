@@ -56,4 +56,9 @@ public class Aircraft {
         int m = (int) Math.round((hours - h) * 60);
         return new SimpleStringProperty(h + " ч " + String.format("%02d", m) + " мин");
     }
+
+    @Override
+    public String toString() {
+        return getAircraftCode() + " — " + getModel();
+    }
 }

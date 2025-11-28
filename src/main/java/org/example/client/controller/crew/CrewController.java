@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.CrewApi;
 import org.example.client.model.CrewMember;
+import org.example.client.util.ErrorDialog;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,8 +63,7 @@ public class CrewController {
             fullList = CrewApi.getAll();
             table.getItems().setAll(fullList);
         } catch (Exception e) {
-            e.printStackTrace();
-            showError("Ошибка загрузки данных", e.getMessage());
+            ErrorDialog.show("Ошибка загрузки данных", e.getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ public class CrewController {
             CrewApi.delete(cm.getMemberId());
             loadData();
         } catch (Exception e) {
-            showError("Ошибка удаления", e.getMessage());
+            ErrorDialog.show("Ошибка удаления", e.getMessage());
         }
     }
 
@@ -104,25 +104,16 @@ public class CrewController {
 
             CrewEditController controller = loader.getController();
             controller.setParent(this);
-            controller.setCrewMember(member);
+            controller.setCrew(member);
 
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            showError("Ошибка", e.getMessage());
+            ErrorDialog.show("Ошибка открытия окна", e.getMessage());
         }
     }
 
     public void refreshTable() {
         loadData();
-    }
-
-    private void showError(String title, String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle(title);
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
     }
 }

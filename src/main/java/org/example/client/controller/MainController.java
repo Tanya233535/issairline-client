@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import org.example.client.App;
+import org.example.client.util.ErrorDialog;
 
 public class MainController {
 
@@ -59,14 +60,14 @@ public class MainController {
             Parent view = loader.load();
             contentArea.getChildren().setAll(view);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки", "Не удалось загрузить экран:\n" + e.getMessage());
         }
     }
 
     @FXML
     private void onLogout() {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/auth/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/login.fxml"));
             Parent loginRoot = loader.load();
 
             javafx.stage.Stage stage =

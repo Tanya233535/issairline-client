@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.AircraftApi;
 import org.example.client.model.Aircraft;
+import org.example.client.util.ErrorDialog;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class AircraftController {
             fullList = AircraftApi.getAll();
             table.getItems().setAll(fullList);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки данных", e.getMessage());
         }
     }
 
@@ -73,7 +74,7 @@ public class AircraftController {
             AircraftApi.delete(a.getAircraftCode());
             loadData();
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка удаления", e.getMessage());
         }
     }
 
@@ -91,12 +92,13 @@ public class AircraftController {
             controller.setParent(this);
 
             stage.show();
+
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка открытия окна", e.getMessage());
         }
     }
+
     public void refreshTable() {
         loadData();
     }
-
 }

@@ -4,15 +4,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<VBox alignment="CENTER_LEFT" spacing="10"
-      xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.client.controller.crew.CrewEditController"
-      style="-fx-padding: 20;">
+      spacing="20"
+      style="-fx-padding: 25; -fx-background-color: white;"
+      alignment="TOP_CENTER">
 
-    <Label text="Редактирование сотрудника" style="-fx-font-size: 20;"/>
+    <!-- Заголовок -->
+    <Label fx:id="titleLabel"
+           text="Сотрудник"
+           maxWidth="Infinity"
+           alignment="CENTER"
+           style="-fx-font-size: 24; -fx-font-weight: bold;"/>
 
-    <GridPane hgap="10" vgap="10">
+    <!-- Форма -->
+    <GridPane hgap="20" vgap="14">
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="160" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="260" hgrow="ALWAYS"/>
+        </columnConstraints>
 
         <Label text="Фамилия:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="lastNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
@@ -32,14 +44,20 @@
         <Label text="Стаж (лет):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
         <TextField fx:id="experienceField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
-        <Label text="Рейс:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <Label text="Назначенный рейс:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
         <ComboBox fx:id="flightBox" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button fx:id="btnSave" text="Сохранить" onAction="#onSave"/>
-        <Button fx:id="btnCancel" text="Отмена" onAction="#onCancel"/>
+    <!-- Кнопки -->
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+        <Button text="Сохранить"
+                onAction="#onSave"
+                prefWidth="140"/>
+
+        <Button text="Отмена"
+                onAction="#onCancel"
+                prefWidth="140"/>
     </HBox>
 
 </VBox>

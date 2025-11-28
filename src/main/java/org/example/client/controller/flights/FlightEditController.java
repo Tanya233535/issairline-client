@@ -7,15 +7,16 @@ import org.example.client.api.AircraftApi;
 import org.example.client.api.FlightApi;
 import org.example.client.model.Aircraft;
 import org.example.client.model.Flight;
+import org.example.client.util.ErrorDialog;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class FlightEditController {
 
-    @FXML private TextField flightNoField;
+    @FXML private Label titleLabel;
 
+    @FXML private TextField flightNoField;
     @FXML private TextField departureAirportField;
     @FXML private TextField arrivalAirportField;
 
@@ -37,16 +38,23 @@ public class FlightEditController {
 
     public void setFlight(Flight f) {
         this.flight = (f == null ? new Flight() : f);
+
         loadAircrafts();
         loadStatuses();
-        fillFields();
+
+        if (f == null) {
+            titleLabel.setText("Добавить рейс");
+        } else {
+            titleLabel.setText("Редактировать рейс");
+            fillFields();
+        }
     }
 
     private void loadAircrafts() {
         try {
             aircraftBox.getItems().setAll(AircraftApi.getAll());
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorDialog.show("Ошибка загрузки самолётов", e.getMessage());
         }
     }
 
@@ -57,66 +65,58 @@ public class FlightEditController {
     }
 
     private void fillFields() {
-        if (flight.getFlightNo() != null) {
-            flightNoField.setText(flight.getFlightNo());
-        }
+        flightNoField.setText(flight.getFlightNo());
+        departureAirportField.setText(flight.getDepartureAirport());
+        arrivalAirportField.setText(flight.getArrivalAirport());
 
-        if (flight.getDepartureAirport() != null) {
-            departureAirportField.setText(flight.getDepartureAirport());
-        }
+        dateDep.setValue(flight.getScheduledDeparture().toLocalDate());
+        timeDep.setText(flight.getScheduledDeparture().toLocalTime().toString());
 
-        if (flight.getArrivalAirport() != null) {
-            arrivalAirportField.setText(flight.getArrivalAirport());
-        }
+        dateArr.setValue(flight.getScheduledArrival().toLocalDate());
+        timeArr.setText(flight.getScheduledArrival().toLocalTime().toString());
 
-        if (flight.getScheduledDeparture() != null) {
-            dateDep.setValue(flight.getScheduledDeparture().toLocalDate());
-            timeDep.setText(flight.getScheduledDeparture().toLocalTime().toString());
-        }
-
-        if (flight.getScheduledArrival() != null) {
-            dateArr.setValue(flight.getScheduledArrival().toLocalDate());
-            timeArr.setText(flight.getScheduledArrival().toLocalTime().toString());
-        }
-
-        if (flight.getStatus() != null) {
-            statusBox.setValue(flight.getStatus());
-        }
-
-        if (flight.getAircraft() != null) {
-            aircraftBox.setValue(flight.getAircraft());
-        }
+        statusBox.setValue(flight.getStatus());
+        aircraftBox.setValue(flight.getAircraft());
     }
 
     @FXML
     private void onSave() {
         try {
+            if (flightNoField.getText().isBlank()
+                    || departureAirportField.getText().isBlank()
+                    || arrivalAirportField.getText().isBlank()
+                    || dateDep.getValue() == null
+                    || dateArr.getValue() == null
+                    || timeDep.getText().isBlank()
+                    || timeArr.getText().isBlank()
+                    || statusBox.getValue() == null
+                    || aircraftBox.getValue() == null) {
 
-            if (flightNoField.getText().isEmpty() ||
-                    departureAirportField.getText().isEmpty() ||
-                    arrivalAirportField.getText().isEmpty() ||
-                    dateDep.getValue() == null ||
-                    dateArr.getValue() == null ||
-                    timeDep.getText().isEmpty() ||
-                    timeArr.getText().isEmpty() ||
-                    statusBox.getValue() == null ||
-                    aircraftBox.getValue() == null) {
-
-                showAlert("Ошибка", "Все поля должны быть заполнены");
+                ErrorDialog.show("Ошибка заполнения",
+                        "Заполните все обязательные поля.");
                 return;
             }
 
-            LocalTime depTime = LocalTime.parse(timeDep.getText());
-            LocalTime arrTime = LocalTime.parse(timeArr.getText());
+            LocalTime depTime;
+            LocalTime arrTime;
+
+            try {
+                depTime = LocalTime.parse(timeDep.getText());
+                arrTime = LocalTime.parse(timeArr.getText());
+            } catch (Exception ex) {
+                ErrorDialog.show("Ошибка формата времени",
+                        "Введите время в формате HH:mm");
+                return;
+            }
 
             LocalDateTime depDT = LocalDateTime.of(dateDep.getValue(), depTime);
             LocalDateTime arrDT = LocalDateTime.of(dateArr.getValue(), arrTime);
 
             if (arrDT.isBefore(depDT)) {
-                showAlert("Ошибка", "Прибытие не может быть раньше вылета");
+                ErrorDialog.show("Ошибка дат",
+                        "Прибытие не может быть раньше вылета.");
                 return;
             }
-
 
             flight.setFlightNo(flightNoField.getText());
             flight.setDepartureAirport(departureAirportField.getText());
@@ -125,7 +125,6 @@ public class FlightEditController {
             flight.setScheduledArrival(arrDT);
             flight.setStatus(statusBox.getValue());
             flight.setAircraft(aircraftBox.getValue());
-
 
             if (flight.getId() == 0) {
                 FlightApi.save(flight);
@@ -137,8 +136,7 @@ public class FlightEditController {
             closeWindow();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Ошибка", e.getMessage());
+            ErrorDialog.show("Ошибка сохранения", e.getMessage());
         }
     }
 
@@ -150,13 +148,5 @@ public class FlightEditController {
     private void closeWindow() {
         Stage stage = (Stage) flightNoField.getScene().getWindow();
         stage.close();
-    }
-
-    private void showAlert(String title, String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 }
