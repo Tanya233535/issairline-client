@@ -20,6 +20,7 @@ public class MainController {
     @FXML private Button btnAircrafts;
     @FXML private Button btnMaintenance;
     @FXML private Button btnLogout;
+    @FXML private Button btnUsers;
 
     private String role;
 
@@ -35,11 +36,18 @@ public class MainController {
                 btnCrew.setDisable(true);
                 btnPassengers.setDisable(true);
                 btnMaintenance.setDisable(true);
+                btnUsers.setDisable(true);
             }
             case "ENGINEER" -> {
                 btnFlights.setDisable(true);
                 btnPassengers.setDisable(true);
                 btnCrew.setDisable(true);
+                btnUsers.setDisable(true);
+            }
+            case "DISPATCHER" -> {
+                btnUsers.setDisable(true);
+            }
+            case "ADMIN" -> {
             }
         }
     }
@@ -51,6 +59,7 @@ public class MainController {
         btnPassengers.setOnAction(e -> loadView("passenger/PassengerView.fxml"));
         btnCrew.setOnAction(e -> loadView("crew/CrewView.fxml"));
         btnMaintenance.setOnAction(e -> loadView("maintenance/MaintenanceView.fxml"));
+        btnUsers.setOnAction(e -> loadView("users/UserView.fxml"));
         btnLogout.setOnAction(e -> onLogout());
     }
 

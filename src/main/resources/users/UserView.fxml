@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.users.UserController"
+      spacing="15"
+      style="-fx-padding: 25;">
+
+    <!-- Заголовок -->
+    <Label text="Пользователи"
+           style="-fx-font-size: 26; -fx-font-weight: bold;"/>
+
+    <!-- Панель поиска -->
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField"
+                   promptText="Поиск по логину или роли..."
+                   HBox.hgrow="ALWAYS"/>
+
+        <Button text="Поиск" fx:id="btnSearch"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Добавить"
+                fx:id="btnAdd"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+    </HBox>
+
+    <!-- Таблица -->
+    <TableView fx:id="table"
+               VBox.vgrow="ALWAYS"
+               style="-fx-background-color: white; -fx-border-color: #d0d0d0;">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+            <TableColumn fx:id="colUsername" text="Логин" prefWidth="250"/>
+            <TableColumn fx:id="colRole" text="Роль" prefWidth="160"/>
+        </columns>
+    </TableView>
+
+    <!-- Нижняя панель -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="btnEdit" text="Изменить" prefWidth="120"/>
+        <Button fx:id="btnDelete" text="Удалить" prefWidth="120"
+                style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+        <Button fx:id="btnRefresh" text="Обновить" prefWidth="120"/>
+    </HBox>
+
+</VBox>

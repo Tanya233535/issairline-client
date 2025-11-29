@@ -19,6 +19,7 @@
             <Button fx:id="btnCrew" text="Экипаж" maxWidth="Infinity"/>
             <Button fx:id="btnAircrafts" text="Самолёты" maxWidth="Infinity"/>
             <Button fx:id="btnMaintenance" text="ТО" maxWidth="Infinity"/>
+            <Button fx:id="btnUsers" text="Пользователи"/>
 
             <Separator/>
             <Button fx:id="btnLogout" text="Выход" maxWidth="Infinity" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>

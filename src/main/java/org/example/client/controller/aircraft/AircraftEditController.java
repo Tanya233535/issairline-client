@@ -70,7 +70,7 @@ public class AircraftEditController {
             Validator.nonNegativeDouble(hoursField, "Налёт", errors);
             Validator.requireDate(maintenanceDateField, "Дата последнего ТО", errors);
             Validator.dateNotFuture(maintenanceDateField, "Дата последнего ТО", errors);
-            Validator.dateNotBefore(maintenanceDateField, LocalDate.of(1950,1,1),
+            Validator.dateNotBefore(maintenanceDateField, LocalDate.of(1930,1,1),
                     "Дата последнего ТО", errors);
 
             if (!errors.isEmpty()) {

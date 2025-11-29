@@ -9,7 +9,7 @@
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.client.controller.aircraft.AircraftEditController"
-      style="-fx-padding: 25;">
+      style="-fx-padding: 25; -fx-background-color: white;">
 
     <!-- Заголовок окна -->
     <Label fx:id="titleLabel"

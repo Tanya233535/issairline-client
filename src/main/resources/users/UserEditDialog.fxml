@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.users.UserEditController"
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-padding: 25; -fx-background-color: white;">
+
+    <!-- Заголовок -->
+    <Label fx:id="titleLabel"
+           text="Пользователь"
+           maxWidth="Infinity"
+           alignment="CENTER"
+           style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+
+    <!-- Форма -->
+    <GridPane hgap="20" vgap="14">
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="180" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="280" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Логин:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Пароль:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="passwordField"
+                       promptText="Оставьте пустым при редактировании"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Роль:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="roleBox" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label fx:id="infoLabel"
+               GridPane.rowIndex="3"
+               GridPane.columnIndex="1"
+               style="-fx-text-fill: #666666;"/>
+    </GridPane>
+
+    <!-- Нижние кнопки -->
+    <HBox spacing="16" alignment="CENTER_RIGHT">
+        <Button text="Сохранить" prefWidth="140" onAction="#onSave"/>
+        <Button text="Отмена" prefWidth="140" onAction="#onCancel"/>
+    </HBox>
+
+</VBox>
