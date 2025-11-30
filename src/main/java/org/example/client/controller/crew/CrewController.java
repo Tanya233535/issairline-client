@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.CrewApi;
 import org.example.client.model.CrewMember;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 import java.util.List;
@@ -65,6 +66,20 @@ public class CrewController {
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки данных", e.getMessage());
         }
+    }
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+        applyRoleRestrictions();
+    }
+
+    private void applyRoleRestrictions() {
+
+        btnAdd.setDisable(!RoleAccessManager.canEditCrew(role));
+        btnEdit.setDisable(!RoleAccessManager.canEditCrew(role));
+        btnDelete.setDisable(!RoleAccessManager.canEditCrew(role));
     }
 
     private void search() {

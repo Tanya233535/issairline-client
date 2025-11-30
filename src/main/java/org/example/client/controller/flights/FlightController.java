@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.FlightApi;
 import org.example.client.model.Flight;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 import java.time.format.DateTimeFormatter;
@@ -73,6 +74,20 @@ public class FlightController {
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки рейсов", e.getMessage());
         }
+    }
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+        applyRoleRestrictions();
+    }
+
+    private void applyRoleRestrictions() {
+
+        btnAdd.setDisable(!RoleAccessManager.canEditFlights(role));
+        btnEdit.setDisable(!RoleAccessManager.canEditFlights(role));
+        btnDelete.setDisable(!RoleAccessManager.canEditFlights(role));
     }
 
     private void search() {

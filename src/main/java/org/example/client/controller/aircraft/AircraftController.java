@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.AircraftApi;
 import org.example.client.model.Aircraft;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 import java.util.List;
@@ -54,6 +55,20 @@ public class AircraftController {
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки данных", e.getMessage());
         }
+    }
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+        applyRoleRestrictions();
+    }
+
+    private void applyRoleRestrictions() {
+
+        btnAdd.setDisable(!RoleAccessManager.canEditAircraft(role));
+        btnEdit.setDisable(!RoleAccessManager.canEditAircraft(role));
+        btnDelete.setDisable(!RoleAccessManager.canEditAircraft(role));
     }
 
     private void search() {

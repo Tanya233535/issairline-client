@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.PassengerApi;
 import org.example.client.model.Passenger;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 import java.util.List;
@@ -61,6 +62,20 @@ public class PassengerController {
             e.printStackTrace();
             ErrorDialog.show("Ошибка загрузки", "Не удалось загрузить пассажиров:\n" + e.getMessage());
         }
+    }
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+        applyRoleRestrictions();
+    }
+
+    private void applyRoleRestrictions() {
+
+        btnAdd.setDisable(!RoleAccessManager.canEditPassengers(role));
+        btnEdit.setDisable(!RoleAccessManager.canEditPassengers(role));
+        btnDelete.setDisable(!RoleAccessManager.canEditPassengers(role));
     }
 
     private void search() {

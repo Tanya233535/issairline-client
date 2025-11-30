@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.MaintenanceApi;
 import org.example.client.model.Maintenance;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 import java.util.List;
@@ -59,6 +60,20 @@ public class MaintenanceController {
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки ТО", e.getMessage());
         }
+    }
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+        applyRoleRestrictions();
+    }
+
+    private void applyRoleRestrictions() {
+
+        btnAdd.setDisable(!RoleAccessManager.canEditMaintenance(role));
+        btnEdit.setDisable(!RoleAccessManager.canEditMaintenance(role));
+        btnDelete.setDisable(!RoleAccessManager.canEditMaintenance(role));
     }
 
     private void search() {

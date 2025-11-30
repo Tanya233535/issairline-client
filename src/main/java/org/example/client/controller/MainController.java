@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import org.example.client.App;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 public class MainController {
@@ -31,24 +32,26 @@ public class MainController {
     }
 
     private void applyRoleRestrictions() {
-        switch (role) {
-            case "VIEWER" -> {
-                btnCrew.setDisable(true);
-                btnPassengers.setDisable(true);
-                btnMaintenance.setDisable(true);
-                btnUsers.setDisable(true);
-            }
-            case "ENGINEER" -> {
-                btnFlights.setDisable(true);
-                btnPassengers.setDisable(true);
-                btnCrew.setDisable(true);
-                btnUsers.setDisable(true);
-            }
-            case "DISPATCHER" -> {
-                btnUsers.setDisable(true);
-            }
-            case "ADMIN" -> {
-            }
+
+        if (RoleAccessManager.isAdmin(role)) {
+            return;
+        }
+
+        if (RoleAccessManager.isDispatcher(role)) {
+            btnUsers.setDisable(true);
+            return;
+        }
+
+        if (RoleAccessManager.isEngineer(role)) {
+            btnFlights.setDisable(true);
+            btnPassengers.setDisable(true);
+            btnCrew.setDisable(true);
+            btnUsers.setDisable(true);
+            return;
+        }
+
+        if (RoleAccessManager.isViewer(role)) {
+            btnUsers.setDisable(true);
         }
     }
 
@@ -67,7 +70,15 @@ public class MainController {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/" + fxmlPath));
             Parent view = loader.load();
+
+            Object controller = loader.getController();
+            try {
+                controller.getClass().getMethod("setRole", String.class)
+                        .invoke(controller, role);
+            } catch (NoSuchMethodException ignored) {}
+
             contentArea.getChildren().setAll(view);
+
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки", "Не удалось загрузить экран:\n" + e.getMessage());
         }

@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.client.App;
 import org.example.client.api.UserApi;
 import org.example.client.model.User;
+import org.example.client.security.RoleAccessManager;
 import org.example.client.util.ErrorDialog;
 
 import java.util.List;
@@ -48,6 +49,22 @@ public class UserController {
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки данных", e.getMessage());
         }
+    }
+
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+        applyRoleRestrictions();
+    }
+
+    private void applyRoleRestrictions() {
+
+        boolean can = RoleAccessManager.isAdmin(role);
+
+        btnAdd.setDisable(!can);
+        btnEdit.setDisable(!can);
+        btnDelete.setDisable(!can);
     }
 
     private void search() {
