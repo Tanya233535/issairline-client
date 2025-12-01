@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.client.App;
 import org.example.client.util.HttpClientUtil;
-import org.example.client.util.ErrorDialog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoginController {
@@ -30,7 +29,7 @@ public class LoginController {
             App.showMainWindow(resp.getRole());
 
         } catch (Exception e) {
-            ErrorDialog.show("Ошибка входа", "Неверный логин или пароль.");
+            errorLabel.setText("Неверный логин или пароль.");
         }
     }
 
