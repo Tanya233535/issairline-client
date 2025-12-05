@@ -70,7 +70,9 @@ public class FlightController {
     private void loadData() {
         try {
             fullList = FlightApi.getAll();
+
             table.getItems().setAll(fullList);
+
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки рейсов", e.getMessage());
         }

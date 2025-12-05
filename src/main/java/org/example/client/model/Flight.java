@@ -1,5 +1,6 @@
 package org.example.client.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.*;
 import java.time.LocalDateTime;
 
@@ -20,7 +21,27 @@ public class Flight {
     private final StringProperty routeDuration = new SimpleStringProperty();
 
     private ObjectProperty<Aircraft> aircraft = new SimpleObjectProperty<>();
+    private IntegerProperty passengerCount = new SimpleIntegerProperty();
 
+    @JsonProperty("id")
+    public long getIdJson() { return getId(); }
+
+    @JsonProperty("id")
+    public void setIdJson(long v) { setId(v); }
+
+    @JsonProperty("status")
+    public void setStatusJson(String s) { setStatus(s); }
+
+    @JsonProperty("aircraft")
+    public void setAircraftFromJson(Aircraft a) {
+        this.aircraft.set(a);
+    }
+
+    @JsonProperty("passengerCount")
+    public int getPassengerCountJson() { return getPassengerCount(); }
+
+    @JsonProperty("passengerCount")
+    public void setPassengerCountJson(int v) { setPassengerCount(v); }
 
     public long getId() { return id.get(); }
     public void setId(long v) { id.set(v); }
@@ -65,6 +86,10 @@ public class Flight {
     public String getRouteDuration() { return routeDuration.get(); }
     public void setRouteDuration(String v) { routeDuration.set(v); }
     public StringProperty routeDurationProperty() { return routeDuration; }
+
+    public int getPassengerCount() { return passengerCount.get(); }
+    public void setPassengerCount(int v) { passengerCount.set(v); }
+    public IntegerProperty passengerCountProperty() { return passengerCount; }
 
     @Override
     public String toString() {

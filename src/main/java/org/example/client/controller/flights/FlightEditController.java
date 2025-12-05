@@ -32,6 +32,17 @@ public class FlightEditController {
     private Flight flight;
     private FlightController parentController;
 
+    private boolean statusManuallyChanged = false;
+
+    @FXML
+    private void initialize() {
+        statusBox.valueProperty().addListener((obs, oldV, newV) -> {
+            if (oldV != null && newV != null && !newV.equals(oldV)) {
+                statusManuallyChanged = true;
+            }
+        });
+    }
+
     public void setParent(FlightController controller) {
         this.parentController = controller;
     }
@@ -65,18 +76,27 @@ public class FlightEditController {
     }
 
     private void fillFields() {
-        flightNoField.setText(flight.getFlightNo());
-        departureAirportField.setText(flight.getDepartureAirport());
-        arrivalAirportField.setText(flight.getArrivalAirport());
+        try {
+            flightNoField.setText(flight.getFlightNo());
+            departureAirportField.setText(flight.getDepartureAirport());
+            arrivalAirportField.setText(flight.getArrivalAirport());
 
-        dateDep.setValue(flight.getScheduledDeparture().toLocalDate());
-        timeDep.setText(flight.getScheduledDeparture().toLocalTime().toString());
+            if (flight.getScheduledDeparture() != null) {
+                dateDep.setValue(flight.getScheduledDeparture().toLocalDate());
+                timeDep.setText(flight.getScheduledDeparture().toLocalTime().toString());
+            }
 
-        dateArr.setValue(flight.getScheduledArrival().toLocalDate());
-        timeArr.setText(flight.getScheduledArrival().toLocalTime().toString());
+            if (flight.getScheduledArrival() != null) {
+                dateArr.setValue(flight.getScheduledArrival().toLocalDate());
+                timeArr.setText(flight.getScheduledArrival().toLocalTime().toString());
+            }
 
-        statusBox.setValue(flight.getStatus());
-        aircraftBox.setValue(flight.getAircraft());
+            statusBox.setValue(flight.getStatus());
+            aircraftBox.setValue(flight.getAircraft());
+
+        } catch (Exception e) {
+            ErrorDialog.show("Ошибка при заполнении полей", e.getMessage());
+        }
     }
 
     @FXML
@@ -123,7 +143,11 @@ public class FlightEditController {
             flight.setArrivalAirport(arrivalAirportField.getText());
             flight.setScheduledDeparture(depDT);
             flight.setScheduledArrival(arrDT);
-            flight.setStatus(statusBox.getValue());
+
+            if (statusManuallyChanged) {
+                flight.setStatus(statusBox.getValue());
+            }
+
             flight.setAircraft(aircraftBox.getValue());
 
             if (flight.getId() == 0) {
@@ -132,7 +156,7 @@ public class FlightEditController {
                 FlightApi.update(flight.getId(), flight);
             }
 
-            parentController.refreshTable();
+            if (parentController != null) parentController.refreshTable();
             closeWindow();
 
         } catch (Exception e) {

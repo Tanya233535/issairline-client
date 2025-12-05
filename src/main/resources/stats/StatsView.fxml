@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.client.controller.stats.StatsController"
+      spacing="25"
+      style="-fx-padding:30; -fx-background-color: #f5f6fa;">
+
+    <!-- Заголовок -->
+    <Label text="Статистика авиакомпании"
+           style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
+
+    <!-- KPI карточки -->
+    <HBox spacing="20">
+
+        <VBox spacing="5" alignment="CENTER"
+              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
+            <Label text="Средняя загрузка" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
+            <Label fx:id="avgLoadLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
+        </VBox>
+
+        <VBox spacing="5" alignment="CENTER"
+              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
+            <Label text="Среднее число пассажиров" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
+            <Label fx:id="avgPassengersLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
+        </VBox>
+
+        <VBox spacing="5" alignment="CENTER"
+              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
+            <Label text="Средняя задержка" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
+            <Label fx:id="avgDelayLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
+        </VBox>
+
+        <VBox spacing="5" alignment="CENTER"
+              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
+            <Label text="Отменённые рейсы" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
+            <Label fx:id="cancelRateLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
+        </VBox>
+
+        <VBox spacing="5" alignment="CENTER"
+              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
+            <Label text="Своевременность" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
+            <Label fx:id="onTimeRateLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
+        </VBox>
+
+    </HBox>
+
+    <!-- Первый ряд графиков -->
+    <HBox spacing="25">
+
+        <VBox spacing="10" style="-fx-background-color:white; -fx-padding:20; -fx-background-radius:10;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 3);">
+            <Label text="Самые частые направления"
+                   style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
+            <PieChart fx:id="routePieChart" prefWidth="450"/>
+        </VBox>
+
+        <VBox spacing="10" style="-fx-background-color:white; -fx-padding:20; -fx-background-radius:10;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 3);">
+            <Label text="Количество рейсов по маршрутам"
+                   style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
+            <BarChart fx:id="flightsBarChart">
+                <xAxis>
+                    <CategoryAxis label="Маршрут"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Количество"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+
+    </HBox>
+
+    <!-- Второй ряд графиков -->
+    <HBox spacing="25">
+
+        <VBox spacing="10" style="-fx-background-color:white; -fx-padding:20; -fx-background-radius:10;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 3);">
+            <Label text="Рост числа пассажиров (помесячно)"
+                   style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
+            <LineChart fx:id="passengerGrowthChart">
+                <xAxis>
+                    <CategoryAxis label="Месяц"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Пассажиры"/>
+                </yAxis>
+            </LineChart>
+        </VBox>
+
+        <VBox spacing="10" style="-fx-background-color:white; -fx-padding:20; -fx-background-radius:10;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 3);">
+            <Label text="Доля отменённых рейсов"
+                   style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
+            <PieChart fx:id="canceledPieChart" prefWidth="450"/>
+        </VBox>
+
+    </HBox>
+
+</VBox>

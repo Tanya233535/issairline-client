@@ -17,6 +17,9 @@
             <Label text="ISS Airline"
                    style="-fx-font-size: 42; -fx-font-weight: bold; -fx-text-fill: #1d3557;" />
 
+            <Label text="Информационно-справочная система"
+                   style="-fx-font-size: 40; -fx-font-weight: bold; -fx-text-fill: #1d3557;" />
+
             <!-- Форма -->
             <VBox spacing="25" alignment="CENTER"
                   maxWidth="450"

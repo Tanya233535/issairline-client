@@ -1,5 +1,6 @@
 package org.example.client.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 
@@ -16,7 +17,10 @@ public class Aircraft {
     private final ObjectProperty<LocalDate> lastMaintenanceDate = new SimpleObjectProperty<>();
     private final StringProperty formattedFlightHours = new SimpleStringProperty();
 
-    public Aircraft() {}
+    public Aircraft() {
+        totalFlightHours.addListener((obs, oldV, newV) -> updateFormattedHours());
+    }
+
 
     public String getAircraftCode() { return aircraftCode.get(); }
     public void setAircraftCode(String v) { aircraftCode.set(v); }
@@ -39,7 +43,12 @@ public class Aircraft {
     public StringProperty statusProperty() { return status; }
 
     public double getTotalFlightHours() { return totalFlightHours.get(); }
-    public void setTotalFlightHours(double v) { totalFlightHours.set(v); }
+
+    public void setTotalFlightHours(double v) {
+        totalFlightHours.set(v);
+        updateFormattedHours();
+    }
+
     public DoubleProperty totalFlightHoursProperty() { return totalFlightHours; }
 
     public LocalDate getLastMaintenanceDate() { return lastMaintenanceDate.get(); }
@@ -50,11 +59,33 @@ public class Aircraft {
     public void setFormattedFlightHours(String v) { formattedFlightHours.set(v); }
     public StringProperty formattedFlightHoursProperty() { return formattedFlightHours; }
 
-    public StringProperty formattedHoursProperty() {
-        double hours = totalFlightHours.get();
+    @JsonProperty("aircraftCode")
+    public String getAircraftCodeJson() { return getAircraftCode(); }
+
+    @JsonProperty("aircraftCode")
+    public void setAircraftCodeJson(String v) { setAircraftCode(v); }
+
+    @JsonProperty("totalFlightHours")
+    public void setTotalFlightHoursJson(double v) { setTotalFlightHours(v); }
+
+    @JsonProperty("lastMaintenanceDate")
+    public void setMaintenanceDateJson(LocalDate d) { setLastMaintenanceDate(d); }
+
+    @JsonProperty("status")
+    public void setStatusJson(String s) { setStatus(s); }
+
+
+    private void updateFormattedHours() {
+        double hours = getTotalFlightHours();
+
         int h = (int) hours;
         int m = (int) Math.round((hours - h) * 60);
-        return new SimpleStringProperty(h + " ч " + String.format("%02d", m) + " мин");
+
+        formattedFlightHours.set(h + " ч " + String.format("%02d", m) + " мин");
+    }
+
+    public StringProperty formattedHoursProperty() {
+        return formattedFlightHours;
     }
 
     @Override

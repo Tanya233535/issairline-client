@@ -22,6 +22,8 @@ public class MainController {
     @FXML private Button btnMaintenance;
     @FXML private Button btnLogout;
     @FXML private Button btnUsers;
+    @FXML private Button btnStats;
+    @FXML private Button btnAbout;
 
     private String role;
 
@@ -63,6 +65,8 @@ public class MainController {
         btnCrew.setOnAction(e -> loadView("crew/CrewView.fxml"));
         btnMaintenance.setOnAction(e -> loadView("maintenance/MaintenanceView.fxml"));
         btnUsers.setOnAction(e -> loadView("users/UserView.fxml"));
+        btnStats.setOnAction(e -> loadView("stats/StatsView.fxml"));
+        btnAbout.setOnAction(e -> loadView("about/AboutView.fxml"));
         btnLogout.setOnAction(e -> onLogout());
     }
 
