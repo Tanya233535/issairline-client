@@ -35,28 +35,32 @@ public class FlightController {
 
     @FXML
     private void initialize() {
-
         colFlightNo.setCellValueFactory(c -> c.getValue().flightNoProperty());
         colDepartureAirport.setCellValueFactory(c -> c.getValue().departureAirportProperty());
         colArrivalAirport.setCellValueFactory(c -> c.getValue().arrivalAirportProperty());
         colStatus.setCellValueFactory(c -> c.getValue().statusProperty());
 
-        colAircraft.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleStringProperty(
-                        c.getValue().getAircraft() != null ?
-                                c.getValue().getAircraft().getModel() : "-"
-                )
-        );
+        colAircraft.setCellValueFactory(c -> {
+            if (c.getValue().getAircraft() != null)
+                return c.getValue().getAircraft().modelProperty();
+            return new javafx.beans.property.SimpleStringProperty("-");
+        });
 
-        colDeparture.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleStringProperty(
+        colDeparture.setCellValueFactory(c -> {
+            if (c.getValue().getScheduledDeparture() != null)
+                return new javafx.beans.property.SimpleStringProperty(
                         c.getValue().getScheduledDeparture().format(fmt)
-                ));
+                );
+            return new javafx.beans.property.SimpleStringProperty("-");
+        });
 
-        colArrival.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleStringProperty(
+        colArrival.setCellValueFactory(c -> {
+            if (c.getValue().getScheduledArrival() != null)
+                return new javafx.beans.property.SimpleStringProperty(
                         c.getValue().getScheduledArrival().format(fmt)
-                ));
+                );
+            return new javafx.beans.property.SimpleStringProperty("-");
+        });
 
         btnRefresh.setOnAction(e -> loadData());
         btnSearch.setOnAction(e -> search());
@@ -70,9 +74,7 @@ public class FlightController {
     private void loadData() {
         try {
             fullList = FlightApi.getAll();
-
             table.getItems().setAll(fullList);
-
         } catch (Exception e) {
             ErrorDialog.show("Ошибка загрузки рейсов", e.getMessage());
         }
@@ -86,7 +88,6 @@ public class FlightController {
     }
 
     private void applyRoleRestrictions() {
-
         btnAdd.setDisable(!RoleAccessManager.canEditFlights(role));
         btnEdit.setDisable(!RoleAccessManager.canEditFlights(role));
         btnDelete.setDisable(!RoleAccessManager.canEditFlights(role));
@@ -94,20 +95,17 @@ public class FlightController {
 
     private void search() {
         String q = searchField.getText().toLowerCase();
-
         List<Flight> filtered = fullList.stream()
                 .filter(f -> f.getFlightNo().toLowerCase().contains(q)
                         || f.getDepartureAirport().toLowerCase().contains(q)
                         || f.getArrivalAirport().toLowerCase().contains(q))
                 .collect(Collectors.toList());
-
         table.getItems().setAll(filtered);
     }
 
     private void deleteSelected() {
         Flight f = table.getSelectionModel().getSelectedItem();
         if (f == null) return;
-
         try {
             FlightApi.delete(f.getId());
             loadData();
@@ -120,7 +118,6 @@ public class FlightController {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/flight/FlightEditDialog.fxml"));
             Stage stage = new Stage();
-
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(flight == null ? "Добавить рейс" : "Редактировать рейс");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -130,7 +127,6 @@ public class FlightController {
             controller.setFlight(flight);
 
             stage.show();
-
         } catch (Exception e) {
             ErrorDialog.show("Ошибка открытия окна", e.getMessage());
         }

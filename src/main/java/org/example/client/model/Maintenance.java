@@ -1,5 +1,6 @@
 package org.example.client.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 
@@ -14,12 +15,14 @@ public class Maintenance {
     private ObjectProperty<LocalDate> nextDueDate = new SimpleObjectProperty<>();
     private StringProperty status = new SimpleStringProperty();
 
+    @JsonProperty("id")
     public long getId() { return id.get(); }
+    @JsonProperty("id")
     public void setId(long v) { id.set(v); }
     public LongProperty idProperty() { return id; }
 
     public Aircraft getAircraft() { return aircraft.get(); }
-    public void setAircraft(Aircraft v) { aircraft.set(v); }
+    public void setAircraft(Aircraft a) { aircraft.set(a); }
     public ObjectProperty<Aircraft> aircraftProperty() { return aircraft; }
 
     public LocalDate getMaintenanceDate() { return maintenanceDate.get(); }
@@ -45,4 +48,26 @@ public class Maintenance {
     public String getStatus() { return status.get(); }
     public void setStatus(String v) { status.set(v); }
     public StringProperty statusProperty() { return status; }
+
+    @JsonProperty("aircraftCode")
+    public String getAircraftCode() {
+        Aircraft a = aircraft.get();
+        return (a == null) ? null : a.getAircraftCode();
+    }
+
+    @JsonProperty("aircraftCode")
+    public void setAircraftFromCode(String code) {
+        if (code == null) {
+            aircraft.set(null);
+        } else {
+            Aircraft a = new Aircraft();
+            a.setAircraftCode(code);
+            aircraft.set(a);
+        }
+    }
+
+    @JsonProperty("aircraft")
+    public void setAircraftFromObject(Aircraft a) {
+        aircraft.set(a);
+    }
 }

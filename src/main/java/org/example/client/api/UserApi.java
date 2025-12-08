@@ -20,19 +20,13 @@ public class UserApi {
     }
 
     public static User create(User u) throws Exception {
-        String json = HttpClientUtil.sendPost(
-                BASE_URL,
-                mapper.writeValueAsString(u)
-        );
+        String json = HttpClientUtil.sendPost(BASE_URL, mapper.writeValueAsString(u));
         checkApiError(json);
         return mapper.readValue(json, User.class);
     }
 
     public static User update(long id, User u) throws Exception {
-        String json = HttpClientUtil.sendPut(
-                BASE_URL + "/" + id,
-                mapper.writeValueAsString(u)
-        );
+        String json = HttpClientUtil.sendPut(BASE_URL + "/" + id, mapper.writeValueAsString(u));
         checkApiError(json);
         return mapper.readValue(json, User.class);
     }
@@ -44,21 +38,27 @@ public class UserApi {
 
     private static void checkApiError(String json) {
         if (json == null || json.trim().isEmpty()) return;
+        try {
+            JSONObject obj = new JSONObject(json);
+            if (obj.has("message")) throw new RuntimeException(obj.getString("message"));
+        } catch (org.json.JSONException ignore) {}
+    }
+
+    public static int getCount() throws Exception {
+        String json = HttpClientUtil.sendGet("http://localhost:8080/iss/api/stats/users/count");
+
+        if (json == null || json.trim().isEmpty()) return 0;
 
         try {
             JSONObject obj = new JSONObject(json);
+            if (obj.has("message")) throw new RuntimeException(obj.getString("message"));
+        } catch (org.json.JSONException ignore) {
+        }
 
-            if (obj.has("message")) {
-                throw new RuntimeException(obj.getString("message"));
-            }
-
-            if (obj.has("error")) {
-                Object err = obj.get("error");
-                if (err instanceof JSONObject) {
-                    JSONObject j = (JSONObject) err;
-                    if (j.has("message")) throw new RuntimeException(j.getString("message"));
-                }
-            }
-        } catch (org.json.JSONException ignore) {}
+        try {
+            return Integer.parseInt(json.trim());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Ошибка преобразования количества пользователей: " + json, e);
+        }
     }
 }

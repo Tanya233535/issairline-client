@@ -1,75 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.client.controller.about.AboutController"
             style="-fx-background-color: #ecf0f1; -fx-padding:40;">
 
-    <!-- Центрированный контейнер -->
     <center>
         <VBox spacing="25" alignment="TOP_CENTER">
 
-            <!-- Карточка -->
-            <VBox spacing="20"
-                  alignment="TOP_CENTER"
-                  style="
-                     -fx-background-color: white;
-                     -fx-padding: 30;
-                     -fx-background-radius: 12;
-                     -fx-border-radius: 12;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0.2, 0, 4);
-                  "
+            <VBox spacing="20" alignment="TOP_CENTER"
+                  style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 12;
+                         -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0.2, 0, 4);"
                   maxWidth="650">
 
-                <!-- Заголовок -->
                 <Label text="ISS Airline"
                        style="-fx-font-size:32; -fx-font-weight:bold; -fx-text-fill:#2c3e50;" />
-
                 <Label text="Информационно-справочная система для авиакомпании"
-                       wrapText="true"
-                       textAlignment="CENTER"
+                       wrapText="true" textAlignment="CENTER"
                        style="-fx-font-size:16; -fx-text-fill:#34495e;"/>
 
                 <Separator/>
 
-                <!-- Автор -->
                 <VBox alignment="CENTER_LEFT" spacing="6">
-                    <Label text="Автор:"
-                           style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
-                    <Label text="Метелица Татьяна Максимовна"
-                           style="-fx-font-size:16;"/>
-                    <Label text="Студент Финансового университета при Правительстве РФ"
-                           style="-fx-font-size:14;"/>
-                    <Label text="Группа ПИ23-1"
-                           style="-fx-font-size:14;"/>
+                    <Label text="Автор:" style="-fx-font-size:18; -fx-font-weight:bold;"/>
+                    <Label fx:id="nameLabel" style="-fx-font-size:16;"/>
+                    <Label fx:id="universityLabel" style="-fx-font-size:14;"/>
+                    <Label fx:id="groupLabel" style="-fx-font-size:14;"/>
+                    <Label fx:id="emailLabel" style="-fx-font-size:14;"/>
                 </VBox>
 
                 <Separator/>
 
-                <!-- Назначение проекта -->
                 <VBox alignment="CENTER_LEFT" spacing="6">
-                    <Label text="Назначение проекта:"
-                           style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#2c3e50;"/>
-                    <Label text="Система разработана для автоматизации учёта рейсов, экипажа,"
-                           wrapText="true" style="-fx-font-size:14;"/>
-                    <Label text="самолётов, технического обслуживания и статистической аналитики."
-                           wrapText="true" style="-fx-font-size:14;"/>
+                    <Label text="Назначение проекта:" style="-fx-font-size:18; -fx-font-weight:bold;"/>
+                    <Label fx:id="projectPurposeLabel" wrapText="true" style="-fx-font-size:14;"/>
                 </VBox>
 
                 <Separator/>
 
-                <Label text="2025"
-                       style="-fx-font-size:14; -fx-text-fill:#7f8c8d;" />
+                <Label fx:id="projectDatesLabel" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;" />
 
             </VBox>
-
         </VBox>
     </center>
-
 </BorderPane>

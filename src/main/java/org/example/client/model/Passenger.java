@@ -1,7 +1,7 @@
 package org.example.client.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.*;
-import org.example.client.model.Flight;
 
 public class Passenger {
 
@@ -14,8 +14,9 @@ public class Passenger {
     private StringProperty seat = new SimpleStringProperty();
     private ObjectProperty<Flight> flight = new SimpleObjectProperty<>();
 
-
+    @JsonProperty("id")
     public long getId() { return id.get(); }
+    @JsonProperty("id")
     public void setId(long id) { this.id.set(id); }
     public LongProperty idProperty() { return id; }
 
@@ -43,7 +44,21 @@ public class Passenger {
     public void setSeat(String v) { seat.set(v); }
     public StringProperty seatProperty() { return seat; }
 
+    @JsonProperty("flightId")
+    public Long getFlightId() {
+        Flight f = flight.get();
+        return (f == null) ? null : f.getId();
+    }
+
+    @JsonProperty("flightId")
+    public void setFlightFromId(long flightId) {
+        Flight newFlight = new Flight();
+        newFlight.setId(flightId);
+        flight.set(newFlight);
+    }
+
     public Flight getFlight() { return flight.get(); }
+    @JsonProperty("flight")
     public void setFlight(Flight f) { flight.set(f); }
     public ObjectProperty<Flight> flightProperty() { return flight; }
 }

@@ -57,7 +57,6 @@ public class UserEditController {
             Validator.require(usernameField, "Логин", errors);
             Validator.requireCombo(roleBox, "Роль", errors);
 
-            // пароль: при создании обязателен, при редактировании опционален
             boolean creating = (user.getId() == 0);
             String pw = passwordField.getText();
 

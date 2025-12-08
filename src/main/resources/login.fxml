@@ -8,58 +8,48 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.client.controller.LoginController"
             prefWidth="1920" prefHeight="1080"
-            style="-fx-background-color: #f4f6f9;">
+            stylesheets="@login.css"
+            style="-fx-background-color: linear-gradient(to bottom right, #e0eafc, #cfdef3);">
 
     <center>
-        <VBox alignment="CENTER" spacing="50">
+        <VBox alignment="CENTER" spacing="40">
 
-            <!-- Логотип или заголовок -->
+            <!-- Заголовок -->
             <Label text="ISS Airline"
-                   style="-fx-font-size: 42; -fx-font-weight: bold; -fx-text-fill: #1d3557;" />
+                   style="-fx-font-size: 44; -fx-font-weight: bold; -fx-text-fill: #1d3557;" />
 
             <Label text="Информационно-справочная система"
-                   style="-fx-font-size: 40; -fx-font-weight: bold; -fx-text-fill: #1d3557;" />
+                   style="-fx-font-size: 20; -fx-text-fill: #1d3557;" />
 
             <!-- Форма -->
-            <VBox spacing="25" alignment="CENTER"
-                  maxWidth="450"
+            <VBox spacing="20" alignment="CENTER"
+                  maxWidth="400"
                   style="-fx-background-color: white;
-                         -fx-background-radius: 14;
+                         -fx-background-radius: 16;
                          -fx-padding: 40;
-                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 35, 0, 0, 8);">
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 25, 0, 0, 6);">
 
                 <TextField fx:id="usernameField"
                            promptText="Логин"
-                           style="-fx-padding: 12;
-                                  -fx-font-size: 18;
-                                  -fx-background-radius: 8;
-                                  -fx-border-color: #d6d6d6;
-                                  -fx-border-radius: 8;" />
+                           styleClass="text-field"/>
 
                 <PasswordField fx:id="passwordField"
                                promptText="Пароль"
-                               style="-fx-padding: 12;
-                                      -fx-font-size: 18;
-                                      -fx-background-radius: 8;
-                                      -fx-border-color: #d6d6d6;
-                                      -fx-border-radius: 8;" />
+                               styleClass="password-field"/>
 
                 <Label fx:id="errorLabel"
                        style="-fx-text-fill: #e63946; -fx-font-size: 14;" />
 
                 <Button text="Войти"
+                        fx:id="loginBtn"
                         onAction="#onLogin"
-                        prefWidth="260"
-                        style="-fx-background-color: #1d3557;
-                               -fx-text-fill: white;
-                               -fx-background-radius: 8;
-                               -fx-font-size: 20;
-                               -fx-padding: 12;" />
+                        styleClass="login-button"
+                        prefWidth="260"/>
 
             </VBox>
 
             <Label text="© 2025 ISS Airline"
-                   style="-fx-text-fill: #7c8a99; -fx-font-size: 14;" />
+                   style="-fx-text-fill: #7c8a99; -fx-font-size: 12;" />
 
         </VBox>
     </center>

@@ -25,24 +25,33 @@ public class StatsController {
     @FXML private Label cancelRateLabel;
     @FXML private Label onTimeRateLabel;
     @FXML private Label efficiencyLabel;
+    @FXML private Label totalUsersLabel;
 
     private List<Flight> flights;
 
     @FXML
     private void initialize() {
-
         try {
             flights = FlightApi.getAll();
+            loadRouteDistribution();
+            loadFlightsPerRoute();
+            loadPassengerGrowth();
+            loadCanceledShare();
+            loadAveragesAndKPIs();
+            loadUserStats();
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
+    }
 
-        loadRouteDistribution();
-        loadFlightsPerRoute();
-        loadPassengerGrowth();
-        loadCanceledShare();
-        loadAveragesAndKPIs();
+    private void loadUserStats() {
+        try {
+            int count = org.example.client.api.UserApi.getCount();
+            totalUsersLabel.setText(String.valueOf(count));
+        } catch (Exception e) {
+            totalUsersLabel.setText("0");
+            e.printStackTrace();
+        }
     }
 
     private void loadRouteDistribution() {

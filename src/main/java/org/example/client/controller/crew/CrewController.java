@@ -34,7 +34,6 @@ public class CrewController {
 
     @FXML
     private void initialize() {
-
         colLast.setCellValueFactory(c -> c.getValue().lastNameProperty());
         colFirst.setCellValueFactory(c -> c.getValue().firstNameProperty());
         colMiddle.setCellValueFactory(c -> c.getValue().middleNameProperty());
@@ -44,19 +43,17 @@ public class CrewController {
 
         colFlight.setCellValueFactory(c -> {
             if (c.getValue().getFlight() != null)
-                return new javafx.beans.property.SimpleStringProperty(
-                        c.getValue().getFlight().getFlightNo()
-                );
+                return c.getValue().getFlight().flightNoProperty();
             return new javafx.beans.property.SimpleStringProperty("-");
         });
-
-        loadData();
 
         btnRefresh.setOnAction(e -> loadData());
         btnSearch.setOnAction(e -> search());
         btnAdd.setOnAction(e -> openEditWindow(null));
         btnEdit.setOnAction(e -> openEditWindow(table.getSelectionModel().getSelectedItem()));
         btnDelete.setOnAction(e -> deleteSelected());
+
+        loadData();
     }
 
     private void loadData() {
@@ -76,7 +73,6 @@ public class CrewController {
     }
 
     private void applyRoleRestrictions() {
-
         btnAdd.setDisable(!RoleAccessManager.canEditCrew(role));
         btnEdit.setDisable(!RoleAccessManager.canEditCrew(role));
         btnDelete.setDisable(!RoleAccessManager.canEditCrew(role));
@@ -84,22 +80,18 @@ public class CrewController {
 
     private void search() {
         String q = searchField.getText().toLowerCase();
-
         List<CrewMember> filtered = fullList.stream().filter(c ->
                 c.getLastName().toLowerCase().contains(q)
                         || c.getFirstName().toLowerCase().contains(q)
-                        || (c.getMiddleName() != null &&
-                        c.getMiddleName().toLowerCase().contains(q))
+                        || (c.getMiddleName() != null && c.getMiddleName().toLowerCase().contains(q))
                         || c.getRole().toLowerCase().contains(q)
         ).collect(Collectors.toList());
-
         table.getItems().setAll(filtered);
     }
 
     private void deleteSelected() {
         CrewMember cm = table.getSelectionModel().getSelectedItem();
         if (cm == null) return;
-
         try {
             CrewApi.delete(cm.getMemberId());
             loadData();
@@ -112,7 +104,6 @@ public class CrewController {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/crew/CrewEditDialog.fxml"));
             Stage stage = new Stage();
-
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(member == null ? "Добавить сотрудника" : "Редактировать сотрудника");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -122,7 +113,6 @@ public class CrewController {
             controller.setCrew(member);
 
             stage.show();
-
         } catch (Exception e) {
             ErrorDialog.show("Ошибка открытия окна", e.getMessage());
         }

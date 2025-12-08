@@ -32,7 +32,6 @@ public class PassengerController {
 
     @FXML
     private void initialize() {
-
         colLastName.setCellValueFactory(c -> c.getValue().lastNameProperty());
         colFirstName.setCellValueFactory(c -> c.getValue().firstNameProperty());
         colTicket.setCellValueFactory(c -> c.getValue().ticketNumberProperty());
@@ -40,9 +39,9 @@ public class PassengerController {
         colSeat.setCellValueFactory(c -> c.getValue().seatProperty());
 
         colFlight.setCellValueFactory(c -> {
-            if (c.getValue().getFlight() == null)
-                return new javafx.beans.property.SimpleStringProperty("-");
-            return c.getValue().getFlight().flightNoProperty();
+            if (c.getValue().getFlight() != null)
+                return c.getValue().getFlight().flightNoProperty();
+            return new javafx.beans.property.SimpleStringProperty("-");
         });
 
         btnRefresh.setOnAction(e -> loadData());
@@ -72,7 +71,6 @@ public class PassengerController {
     }
 
     private void applyRoleRestrictions() {
-
         btnAdd.setDisable(!RoleAccessManager.canEditPassengers(role));
         btnEdit.setDisable(!RoleAccessManager.canEditPassengers(role));
         btnDelete.setDisable(!RoleAccessManager.canEditPassengers(role));
@@ -80,24 +78,20 @@ public class PassengerController {
 
     private void search() {
         String q = searchField.getText().toLowerCase();
-
         if (q.isBlank()) {
             table.getItems().setAll(fullList);
             return;
         }
-
         List<Passenger> filtered = fullList.stream()
                 .filter(p -> p.getLastName().toLowerCase().contains(q)
                         || p.getTicketNumber().toLowerCase().contains(q))
                 .collect(Collectors.toList());
-
         table.getItems().setAll(filtered);
     }
 
     private void deleteSelected() {
         Passenger p = table.getSelectionModel().getSelectedItem();
         if (p == null) return;
-
         try {
             PassengerApi.delete(p.getId());
             loadData();
@@ -111,7 +105,6 @@ public class PassengerController {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/passenger/PassengerEditDialog.fxml"));
             Stage stage = new Stage();
-
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(passenger == null ? "Добавить пассажира" : "Редактировать пассажира");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -121,7 +114,6 @@ public class PassengerController {
             controller.setPassenger(passenger);
 
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             ErrorDialog.show("Ошибка", "Не удалось открыть окно редактирования:\n" + e.getMessage());

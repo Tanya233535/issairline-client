@@ -15,52 +15,52 @@ public class AircraftApi {
 
     public static List<Aircraft> getAll() throws Exception {
         String json = HttpClientUtil.sendGet(BASE_URL);
-
         checkApiError(json);
-
         return mapper.readValue(json, new TypeReference<List<Aircraft>>() {});
     }
 
-    public static Aircraft create(Aircraft aircraft) throws Exception {
-        String json = HttpClientUtil.sendPost(
-                BASE_URL,
-                mapper.writeValueAsString(aircraft)
-        );
-
+    public static Aircraft getByCode(String code) throws Exception {
+        if (code == null || code.isBlank()) throw new IllegalArgumentException("Aircraft code не может быть пустым");
+        String json = HttpClientUtil.sendGet(BASE_URL + "/" + code);
         checkApiError(json);
-
         return mapper.readValue(json, Aircraft.class);
     }
 
-    public static Aircraft update(Aircraft aircraft) throws Exception {
-        String json = HttpClientUtil.sendPut(
-                BASE_URL + "/" + aircraft.getAircraftCode(),
-                mapper.writeValueAsString(aircraft)
-        );
-
+    public static Aircraft create(Aircraft a) throws Exception {
+        validateAircraft(a);
+        String json = HttpClientUtil.sendPost(BASE_URL, mapper.writeValueAsString(a));
         checkApiError(json);
+        return mapper.readValue(json, Aircraft.class);
+    }
 
+    public static Aircraft update(Aircraft a) throws Exception {
+        validateAircraft(a);
+        String json = HttpClientUtil.sendPut(BASE_URL + "/" + a.getAircraftCode(), mapper.writeValueAsString(a));
+        checkApiError(json);
         return mapper.readValue(json, Aircraft.class);
     }
 
     public static void delete(String code) throws Exception {
+        if (code == null || code.isBlank()) throw new IllegalArgumentException("Aircraft code не может быть пустым");
         String json = HttpClientUtil.sendDelete(BASE_URL + "/" + code);
-
         checkApiError(json);
     }
 
+    private static void validateAircraft(Aircraft a) {
+        if (a == null) throw new IllegalArgumentException("Aircraft не может быть null");
+        if (a.getAircraftCode() == null || a.getAircraftCode().isBlank()) {
+            throw new IllegalArgumentException("Aircraft code не может быть пустым");
+        }
+        if (a.getModel() == null || a.getModel().isBlank()) {
+            throw new IllegalArgumentException("Модель самолёта не может быть пустой");
+        }
+    }
+
     private static void checkApiError(String json) {
-
         if (json == null || json.trim().isEmpty()) return;
-
         try {
             JSONObject obj = new JSONObject(json);
-
-            if (obj.has("message")) {
-                throw new RuntimeException(obj.getString("message"));
-            }
-
-        } catch (org.json.JSONException ignore) {
-        }
+            if (obj.has("message")) throw new RuntimeException(obj.getString("message"));
+        } catch (org.json.JSONException ignore) {}
     }
 }
