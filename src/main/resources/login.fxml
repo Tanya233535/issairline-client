@@ -3,55 +3,71 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.paint.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.client.controller.LoginController"
             prefWidth="1920" prefHeight="1080"
-            stylesheets="@login.css"
-            style="-fx-background-color: linear-gradient(to bottom right, #e0eafc, #cfdef3);">
+            stylesheets="@login.css">
 
     <center>
-        <VBox alignment="CENTER" spacing="40">
+        <StackPane>
 
-            <!-- Заголовок -->
-            <Label text="ISS Airline"
-                   style="-fx-font-size: 44; -fx-font-weight: bold; -fx-text-fill: #1d3557;" />
+            <Pane>
+                <Rectangle width="1920" height="1080"
+                           fill="linear-gradient(to bottom right, #dfe7ef, #f5f7fa)"/>
 
-            <Label text="Информационно-справочная система"
-                   style="-fx-font-size: 20; -fx-text-fill: #1d3557;" />
+                <!-- Мягкая круглая фигура -->
+                <Circle centerX="300" centerY="250" radius="220"
+                        fill="rgba(255,255,255,0.35)" />
 
-            <!-- Форма -->
-            <VBox spacing="20" alignment="CENTER"
-                  maxWidth="400"
-                  style="-fx-background-color: white;
-                         -fx-background-radius: 16;
-                         -fx-padding: 40;
-                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 25, 0, 0, 6);">
+                <!-- Волнистая фигура справа -->
+                <Rectangle width="600" height="600"
+                           arcWidth="150" arcHeight="150"
+                           rotate="45"
+                           translateX="1100" translateY="200"
+                           fill="rgba(255,255,255,0.20)" />
+            </Pane>
 
-                <TextField fx:id="usernameField"
-                           promptText="Логин"
-                           styleClass="text-field"/>
+            <VBox alignment="CENTER" spacing="40">
 
-                <PasswordField fx:id="passwordField"
-                               promptText="Пароль"
-                               styleClass="password-field"/>
+                <VBox alignment="CENTER" spacing="5">
+                    <Label text="ISS Airline ✈" styleClass="title-label"/>
+                    <Label text="Информационно-справочная система"
+                           styleClass="subtitle-label"/>
+                </VBox>
 
-                <Label fx:id="errorLabel"
-                       style="-fx-text-fill: #e63946; -fx-font-size: 14;" />
+                <!-- Ошибка -->
+                <Label fx:id="errorLabel" styleClass="error-label"/>
 
-                <Button text="Войти"
-                        fx:id="loginBtn"
-                        onAction="#onLogin"
-                        styleClass="login-button"
-                        prefWidth="260"/>
+                <!-- Форма -->
+                <VBox spacing="20" alignment="CENTER"
+                      maxWidth="400"
+                      styleClass="form-card">
 
+                    <TextField fx:id="usernameField"
+                               promptText="Логин"
+                               styleClass="text-field"/>
+
+                    <PasswordField fx:id="passwordField"
+                                   promptText="Пароль"
+                                   styleClass="password-field"/>
+
+                    <Button text="Войти"
+                            fx:id="loginBtn"
+                            onAction="#onLogin"
+                            styleClass="login-button"
+                            prefWidth="260"/>
+                </VBox>
+
+                <!-- Подпись -->
+                <Label text="© 2025 ISS Airline"
+                       style="-fx-text-fill: #7c8a99; -fx-font-size: 12;" />
             </VBox>
 
-            <Label text="© 2025 ISS Airline"
-                   style="-fx-text-fill: #7c8a99; -fx-font-size: 12;" />
-
-        </VBox>
+        </StackPane>
     </center>
 
 </BorderPane>

@@ -35,22 +35,8 @@
         <VBox spacing="5" alignment="CENTER"
               style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
-            <Label text="Средняя задержка" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
-            <Label fx:id="avgDelayLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
-        </VBox>
-
-        <VBox spacing="5" alignment="CENTER"
-              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
             <Label text="Отменённые рейсы" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
             <Label fx:id="cancelRateLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
-        </VBox>
-
-        <VBox spacing="5" alignment="CENTER"
-              style="-fx-background-color:white; -fx-padding:15; -fx-border-radius:10; -fx-background-radius:10;
-                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 3);">
-            <Label text="Своевременность" style="-fx-font-size:14; -fx-text-fill:#7f8c8d;"/>
-            <Label fx:id="onTimeRateLabel" style="-fx-font-size:20; -fx-font-weight:bold;"/>
         </VBox>
 
         <VBox spacing="5" alignment="CENTER"

@@ -3,8 +3,8 @@ package org.example.client.controller.stats;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import org.example.client.api.FlightApi;
+import org.example.client.api.UserApi;
 import org.example.client.model.Flight;
 
 import java.time.Duration;
@@ -21,9 +21,7 @@ public class StatsController {
 
     @FXML private Label avgLoadLabel;
     @FXML private Label avgPassengersLabel;
-    @FXML private Label avgDelayLabel;
     @FXML private Label cancelRateLabel;
-    @FXML private Label onTimeRateLabel;
     @FXML private Label efficiencyLabel;
     @FXML private Label totalUsersLabel;
 
@@ -46,7 +44,7 @@ public class StatsController {
 
     private void loadUserStats() {
         try {
-            int count = org.example.client.api.UserApi.getCount();
+            int count = UserApi.getCount();
             totalUsersLabel.setText(String.valueOf(count));
         } catch (Exception e) {
             totalUsersLabel.setText("0");
@@ -139,45 +137,13 @@ public class StatsController {
                 .orElse(0);
         avgLoadLabel.setText(String.format("%.2f%%", avgLoad));
 
-        double avgDelay = flights.stream()
-                .filter(f -> f.getActualDeparture() != null)
-                .mapToLong(f ->
-                        Duration.between(f.getScheduledDeparture(), f.getActualDeparture()).toMinutes()
-                )
-                .filter(m -> m > 0)
-                .average()
-                .orElse(0);
-
-        avgDelayLabel.setText(String.format("%.2f мин", avgDelay));
-
         long cancelled = flights.stream()
                 .filter(f -> f.getStatus().equalsIgnoreCase("CANCELLED"))
                 .count();
         double cancelRate = (double) cancelled / flights.size() * 100;
         cancelRateLabel.setText(String.format("%.2f%%", cancelRate));
 
-        long arrivedOrDeparted = flights.stream()
-                .filter(f -> f.getStatus().equalsIgnoreCase("ARRIVED") ||
-                        f.getStatus().equalsIgnoreCase("DEPARTED"))
-                .count();
-
-        double onTime = 0;
-        if (arrivedOrDeparted > 0) {
-            onTime = flights.stream()
-                    .filter(f -> f.getActualDeparture() != null)
-                    .filter(f ->
-                            Duration.between(
-                                    f.getScheduledDeparture(),
-                                    f.getActualDeparture()
-                            ).toMinutes() <= 15
-                    )
-                    .count() * 100.0 / arrivedOrDeparted;
-        }
-
-        onTimeRateLabel.setText(String.format("%.2f%%", onTime));
-
         Map<String, Double> hours = new HashMap<>();
-
         for (Flight f : flights) {
             if (f.getAircraft() != null &&
                     f.getStatus().equalsIgnoreCase("ARRIVED")) {

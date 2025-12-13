@@ -16,7 +16,6 @@
 
     <dependencies>
 
-        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -28,7 +27,6 @@
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- JSON (Jackson for REST API) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -52,7 +50,6 @@
     <build>
         <plugins>
 
-            <!-- JavaFX plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>

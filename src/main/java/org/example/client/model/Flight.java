@@ -73,7 +73,6 @@ public class Flight {
     @Override
     public String toString() { return flightNo.get(); }
 
-    // --- JSON helpers: serialize aircraftCode so server receives it ---
     @JsonProperty("aircraftCode")
     public String getAircraftCode() {
         Aircraft a = aircraft.get();
